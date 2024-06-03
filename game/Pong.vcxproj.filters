@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{E9C7FDCE-D52A-8D73-7EB0-C5296AF258F6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\private">
+      <UniqueIdentifier>{a5c11ca3-3bcb-4d14-8a17-a455214119a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\public">
+      <UniqueIdentifier>{ede7e4fe-bd27-4bf3-85b0-8021e169afdc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tickable.cpp">
+      <Filter>Source Files\private</Filter>
+    </ClCompile>
+    <ClCompile Include="RectangleTest.cpp">
+      <Filter>Source Files\private</Filter>
+    </ClCompile>
+    <ClCompile Include="TickableFactory.cpp">
+      <Filter>Source Files\private</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Tickable.h">
+      <Filter>Source Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="TickAll.h">
+      <Filter>Source Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="TickableFactory.h">
+      <Filter>Source Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="RectangleTest.h">
+      <Filter>Source Files\public</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
