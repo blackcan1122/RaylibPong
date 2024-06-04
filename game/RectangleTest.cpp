@@ -10,86 +10,124 @@ void RectangleTest::Tick(float Deltatime)
 
 void RectangleTest::UpdateTransform(float Deltatime)
 {
-	// Still a Problem with the way i implemented Momentum -> Should change to Vector2 and calculate on top of pos in general
+	// Need to be Rewritten with Direction + Acceleration + Speed to proberly determine momentum
+	// 
+	// Helper Lambda for Adding two Vectors
+	
 
-	// Helper Lambda Function for Clamping:
-	auto ClampMomentum = [this]() 
+
+	auto AddVector2 = [](Vector2& FirstVector, const Vector2 SecondVector)
 	{
-		if (this->Momentum >= 10) this->Momentum = 10;
-		if (this->Momentum <= 0) this->Momentum = 0;
+			FirstVector.x += SecondVector.x;
+			FirstVector.y += SecondVector.y;
+			return FirstVector;
 	};
 
-	// Helper Lambda for Setting Position
-	auto m_SetPosition = [this, Deltatime](float& Position, float Delta, float& Momentum)
+	auto MultVector2 = [](Vector2& FirstVector, const Vector2 SecondVector)
 		{
-			Position += Delta * Momentum * (Deltatime * 1000);
+			FirstVector.x *= SecondVector.x;
+			FirstVector.y *= SecondVector.y;
+			return FirstVector;
 		};
+
+	// Helper Lambda for Clamping Vector 2
+	auto ClampVector2 = [](Vector2& VectorToClamp)
+		{
+			if (VectorToClamp.x > 1)
+			{
+				VectorToClamp.x = 1;
+			}
+			else if (VectorToClamp.x < -1)
+			{
+				VectorToClamp.x = -1;
+			}
+
+			if (VectorToClamp.y > 1)
+			{
+				VectorToClamp.y = 1;
+			}
+			else if (VectorToClamp.y < -1)
+			{
+				VectorToClamp.y = -1;
+			}
+
+
+		};
+
+
 	// Accelarting
-	
 	if (IsKeyDown(KEY_UP))
 	{
-		this->Momentum += 0.1;
-		ClampMomentum();
-		m_SetPosition(this->Position.y, -0.1, this->Momentum);
-		LastPressed = UpKey;
+		Momentum.y += -0.01;
+		Vector2 TempVector = { 0,-1 };
+		Direction = AddVector2(Direction, TempVector);
 	}
 	if (IsKeyDown(KEY_DOWN))
 	{
-		this->Momentum += 0.1;
-		ClampMomentum();
-		m_SetPosition(this->Position.y, 0.1, this->Momentum);
-		LastPressed = DownKey;
+		Momentum.y += 0.01;
+		Vector2 TempVector = { 0, 1 };
+		Direction = AddVector2(Direction, TempVector);
 
 	}
 	if (IsKeyDown(KEY_RIGHT))
 	{
-		this->Momentum += 0.1;
-		ClampMomentum();
-		m_SetPosition(this->Position.x, 0.1, this->Momentum);
-		LastPressed = RightKey;
+		Momentum.x += 0.01;
+		Vector2 TempVector = { 1, 0 };
+		Direction = AddVector2(Direction, TempVector);
 
 	}
 	if (IsKeyDown(KEY_LEFT))
 	{
-		this->Momentum += 0.1;
-		ClampMomentum();
-		m_SetPosition(this->Position.x, -0.1, this->Momentum);
-		LastPressed = LeftKey;
+		Momentum.x += -0.01;
+		Vector2 TempVector = { -1, 0 };
+		Direction = AddVector2(Direction, TempVector);
 	}
 
-	ClampMomentum();
+	ClampVector2(Momentum);
+	//ClampVector2(Direction);
 
- //Slowing Down
-
-	if (LastPressed == UpKey && !IsKeyDown(KEY_UP))
+	// Normalize the Vector (Direction)
+	float directionMagnitude = std::sqrt(Direction.x * Direction.x + Direction.y * Direction.y);
+	if (directionMagnitude > 0)
 	{
-		this->Momentum -= 0.1;
-		ClampMomentum();
-		m_SetPosition(this->Position.y, -0.1, this->Momentum);
-
+		Direction.x /= directionMagnitude;
+		Direction.y /= directionMagnitude;
 	}
-	if (LastPressed == DownKey && !IsKeyDown(KEY_DOWN))
+
+	// Calculating End Position for current Tick
+	Position.x += Direction.x * std::abs(Momentum.x) * (Deltatime * 1000);
+	Position.y += Direction.y * std::abs(Momentum.y) * (Deltatime * 1000);
+
+
+	if (!IsKeyDown(KEY_UP) && !IsKeyDown(KEY_DOWN) && !IsKeyDown(KEY_RIGHT) && !IsKeyDown(KEY_LEFT))
 	{
-		this->Momentum -= 0.1;
-		ClampMomentum();
-		m_SetPosition(this->Position.y, 0.1, this->Momentum);
-
-
+		isInMomentumState = true;
 	}
-	if (LastPressed == RightKey && !IsKeyDown(KEY_RIGHT))
+
+	if (isInMomentumState == true)
 	{
-		this->Momentum -= 0.1;
-		ClampMomentum();
-		m_SetPosition(this->Position.x, 0.1, this->Momentum);
+		Position.x += Momentum.x * (Deltatime * 1000);
+		Position.y += Momentum.y * (Deltatime * 1000);
 
-	}
-	if (LastPressed == LeftKey && !IsKeyDown(KEY_LEFT))
-	{
-		this->Momentum -= 0.1;
-		ClampMomentum();
-		m_SetPosition(this->Position.x, -0.1, this->Momentum);
+		// Apply damping factor for deceleration
+		float dampingFactor = 0.95f;
+		Momentum.x *= dampingFactor;
+		Momentum.y *= dampingFactor;
 
+		// If momentum is very small, stop it
+		if (std::abs(Momentum.x) < 0.01f) Momentum.x = 0;
+		if (std::abs(Momentum.y) < 0.01f) Momentum.y = 0;
+		if (Momentum.x == 0 && Momentum.y == 0) isInMomentumState = false;
+
+		// Reset direction to zero when decelerating
+		Direction = { 0, 0 };
+
+		std::cout << "Momentum X:" << Momentum.x << std::endl;
+		std::cout << "Momentum Y:" << Momentum.y << std::endl;
+		std::cout << "Direction X:" << Direction.x << std::endl;
+		std::cout << "Direction Y:" << Direction.y << std::endl;
 	}
+
 }
 
 void RectangleTest::DrawSquare()

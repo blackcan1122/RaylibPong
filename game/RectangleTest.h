@@ -57,7 +57,9 @@ private:
 
 	float Test = 100;
 	Vector2 Dimensions = { 100,100 };
-	float Momentum = 0;
+	Vector2 Direction = { 0,0 };
+	Vector2 Momentum = { 0,0 };
+	//float Momentum = 0;
 	enum ButtonPressed
 	{
 		None = 0,
@@ -69,6 +71,7 @@ private:
 	};
 	ButtonPressed LastPressed = None;
 	Rectangle BBox;
+	bool isInMomentumState = false;
 
 };
 
