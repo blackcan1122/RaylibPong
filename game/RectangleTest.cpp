@@ -11,123 +11,50 @@ void RectangleTest::Tick(float Deltatime)
 void RectangleTest::UpdateTransform(float Deltatime)
 {
 	// Need to be Rewritten with Direction + Acceleration + Speed to proberly determine momentum
-	// 
-	// Helper Lambda for Adding two Vectors
-	
-
-
-	auto AddVector2 = [](Vector2& FirstVector, const Vector2 SecondVector)
-	{
-			FirstVector.x += SecondVector.x;
-			FirstVector.y += SecondVector.y;
-			return FirstVector;
-	};
-
-	auto MultVector2 = [](Vector2& FirstVector, const Vector2 SecondVector)
-		{
-			FirstVector.x *= SecondVector.x;
-			FirstVector.y *= SecondVector.y;
-			return FirstVector;
-		};
-
-	// Helper Lambda for Clamping Vector 2
-	auto ClampVector2 = [](Vector2& VectorToClamp)
-		{
-			if (VectorToClamp.x > 1)
-			{
-				VectorToClamp.x = 1;
-			}
-			else if (VectorToClamp.x < -1)
-			{
-				VectorToClamp.x = -1;
-			}
-
-			if (VectorToClamp.y > 1)
-			{
-				VectorToClamp.y = 1;
-			}
-			else if (VectorToClamp.y < -1)
-			{
-				VectorToClamp.y = -1;
-			}
-
-
-		};
-
 
 	// Accelarting
+
+
+	Accel = 30.f;
 	if (IsKeyDown(KEY_UP))
 	{
-		Momentum.y += -0.01;
-		Vector2 TempVector = { 0,-1 };
-		Direction = AddVector2(Direction, TempVector);
+		Velocity.y -= Accel;
 	}
 	if (IsKeyDown(KEY_DOWN))
 	{
-		Momentum.y += 0.01;
-		Vector2 TempVector = { 0, 1 };
-		Direction = AddVector2(Direction, TempVector);
-
+		Velocity.y += Accel;
 	}
 	if (IsKeyDown(KEY_RIGHT))
 	{
-		Momentum.x += 0.01;
-		Vector2 TempVector = { 1, 0 };
-		Direction = AddVector2(Direction, TempVector);
-
+		Velocity.x += Accel;
 	}
 	if (IsKeyDown(KEY_LEFT))
 	{
-		Momentum.x += -0.01;
-		Vector2 TempVector = { -1, 0 };
-		Direction = AddVector2(Direction, TempVector);
+		Velocity.x -= Accel;
 	}
 
-	ClampVector2(Momentum);
-	//ClampVector2(Direction);
+	// Apply Dampening
+	Velocity.x *= Dampening;
+	Velocity.y *= Dampening;
 
-	// Normalize the Vector (Direction)
-	float directionMagnitude = std::sqrt(Direction.x * Direction.x + Direction.y * Direction.y);
-	if (directionMagnitude > 0)
+	// Update position with velocity
+
+	Position.x += Velocity.x * Deltatime;
+	Position.y += Velocity.y * Deltatime;
+	Direction = Velocity;
+	Vector2Normalize(Direction);
+
+	// Check if velocity is close to zero and set it to zero if so
+	if (std::abs(Velocity.x) < 0.02)
 	{
-		Direction.x /= directionMagnitude;
-		Direction.y /= directionMagnitude;
+		Velocity.x = 0;
 	}
-
-	// Calculating End Position for current Tick
-	Position.x += Direction.x * std::abs(Momentum.x) * (Deltatime * 1000);
-	Position.y += Direction.y * std::abs(Momentum.y) * (Deltatime * 1000);
-
-
-	if (!IsKeyDown(KEY_UP) && !IsKeyDown(KEY_DOWN) && !IsKeyDown(KEY_RIGHT) && !IsKeyDown(KEY_LEFT))
+	if (std::abs(Velocity.y) < 0.02)
 	{
-		isInMomentumState = true;
+		Velocity.y = 0;
 	}
 
-	if (isInMomentumState == true)
-	{
-		Position.x += Momentum.x * (Deltatime * 1000);
-		Position.y += Momentum.y * (Deltatime * 1000);
-
-		// Apply damping factor for deceleration
-		float dampingFactor = 0.95f;
-		Momentum.x *= dampingFactor;
-		Momentum.y *= dampingFactor;
-
-		// If momentum is very small, stop it
-		if (std::abs(Momentum.x) < 0.01f) Momentum.x = 0;
-		if (std::abs(Momentum.y) < 0.01f) Momentum.y = 0;
-		if (Momentum.x == 0 && Momentum.y == 0) isInMomentumState = false;
-
-		// Reset direction to zero when decelerating
-		Direction = { 0, 0 };
-
-		std::cout << "Momentum X:" << Momentum.x << std::endl;
-		std::cout << "Momentum Y:" << Momentum.y << std::endl;
-		std::cout << "Direction X:" << Direction.x << std::endl;
-		std::cout << "Direction Y:" << Direction.y << std::endl;
-	}
-
+	DrawText(TextFormat("Velocity X: %f, Velocity Y:%f", Velocity.x, Velocity.y), 50, 50, 12, BLACK);
 }
 
 void RectangleTest::DrawSquare()

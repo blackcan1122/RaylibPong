@@ -2,6 +2,8 @@
 #include "Tickable.h"
 #include "TickableFactory.h"
 #include "raylib.h"
+#include "raymath.h"
+#include "Helper.hpp"
 class RectangleTest : public Tickable
 {
 public:
@@ -57,21 +59,13 @@ private:
 
 	float Test = 100;
 	Vector2 Dimensions = { 100,100 };
+	Vector2 Velocity = { 0,0 };
 	Vector2 Direction = { 0,0 };
-	Vector2 Momentum = { 0,0 };
-	//float Momentum = 0;
-	enum ButtonPressed
-	{
-		None = 0,
-		UpKey = 1,
-		DownKey = 2,
-		RightKey = 3,
-		LeftKey = 4
+	float Accel = 0;
+	float Mass = 0;
+	float Dampening = 0.97;
 
-	};
-	ButtonPressed LastPressed = None;
 	Rectangle BBox;
-	bool isInMomentumState = false;
 
 };
 

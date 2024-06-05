@@ -70,6 +70,7 @@ int main()
     // Initialize window
     InitWindow(screenWidth, screenHeight, "Waterfall Sonar");
 
+
     SetTargetFPS(60);
     RectangleTest MyRectangle;
     RectangleTest MyRectangle2;
@@ -78,9 +79,12 @@ int main()
     Vector2 Pos2 = { 200,200 };
     MyRectangle.SetPosition(Pos1);
     MyRectangle2.SetPosition(Pos2);
-
+    float FPSTest = 60;
     // Main game loop
     while (!WindowShouldClose()) {
+
+        FPSTest += GetMouseWheelMove();
+        SetTargetFPS(FPSTest);
         DrawFPS(0, 0);
         float DeltaTime = GetFrameTime();
         char Buffer[16];
@@ -96,7 +100,7 @@ int main()
         DrawText(TextFormat("Position of BBox 1 is X:%f Y:%f", MyRectangle.GetBBox().x, MyRectangle.GetBBox().y),100,100,18,BLACK);
         if(CheckCollisionRecs(MyRectangle.GetBBox(), MyRectangle2.GetBBox()))
         {
-            std::cout << "OUUUCH";
+           
         }
 
         BeginDrawing();
@@ -109,6 +113,7 @@ int main()
         DrawText(Buffer, 200, 200, 16, BLUE);
 
         EndDrawing();
+        
     }
 
     CloseWindow();
