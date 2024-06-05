@@ -10,6 +10,12 @@
     <Filter Include="Source Files\public">
       <UniqueIdentifier>{ede7e4fe-bd27-4bf3-85b0-8021e169afdc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\private\Events">
+      <UniqueIdentifier>{2cc22887-a680-45c7-83a4-a2754ac6292e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\public\Events">
+      <UniqueIdentifier>{38a470f5-64ea-4a7b-8faa-3dea855e56f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -24,6 +30,12 @@
     <ClCompile Include="TickableFactory.cpp">
       <Filter>Source Files\private</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionEvent.cpp">
+      <Filter>Source Files\private\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="EventDispatcher.cpp">
+      <Filter>Source Files\private\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tickable.h">
@@ -37,6 +49,15 @@
     </ClInclude>
     <ClInclude Include="RectangleTest.h">
       <Filter>Source Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionEvent.hpp">
+      <Filter>Source Files\public\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.hpp">
+      <Filter>Source Files\public\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventDispatcher.hpp">
+      <Filter>Source Files\public\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -265,6 +265,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CollisionEvent.cpp" />
+    <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="RectangleTest.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="Tickable.cpp" />
@@ -276,6 +278,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CollisionEvent.hpp" />
+    <ClInclude Include="Event.hpp" />
+    <ClInclude Include="EventDispatcher.hpp" />
     <ClInclude Include="RectangleTest.h" />
     <ClInclude Include="Tickable.h" />
     <ClInclude Include="TickableFactory.h" />

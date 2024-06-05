@@ -52,6 +52,8 @@ public:
 	// Getter Functions Specific for Rectangles
 	Vector2 GetDimensions();
 	Rectangle GetBBox();
+
+	void OnCollision();
 	
 
 

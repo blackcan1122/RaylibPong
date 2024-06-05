@@ -29,6 +29,8 @@ For a C++ project simply rename the file to .cpp and run premake
 #include <cstdio>
 #include "TickAll.h"
 #include "RectangleTest.h"
+#include "Event.hpp"
+#include "EventDispatcher.hpp"
 
 // Define a simple C++ class that uses raylib functions
 class SimpleWindow {
@@ -75,6 +77,18 @@ int main()
     RectangleTest MyRectangle;
     RectangleTest MyRectangle2;
 
+    EventDispatcher Dispatcher;
+
+    Dispatcher.AddListener("CollisionEvent",[](std::shared_ptr<Event> event)
+        {
+            auto Test = std::dynamic_pointer_cast<CollisionEvent>(event);
+            if (Test)
+            {
+                std::cout << Test->m_HasCollisionHappend << std::endl;
+                std::cout << "Name of Event: " << Test->GetName() << std::endl;
+            }
+        });
+
     Vector2 Pos1 = { 0,0 };
     Vector2 Pos2 = { 200,200 };
     MyRectangle.SetPosition(Pos1);
@@ -83,8 +97,8 @@ int main()
     // Main game loop
     while (!WindowShouldClose()) {
 
-        FPSTest += GetMouseWheelMove();
-        SetTargetFPS(FPSTest);
+        //FPSTest += GetMouseWheelMove();
+        //SetTargetFPS(FPSTest);
         DrawFPS(0, 0);
         float DeltaTime = GetFrameTime();
         char Buffer[16];
@@ -100,7 +114,9 @@ int main()
         DrawText(TextFormat("Position of BBox 1 is X:%f Y:%f", MyRectangle.GetBBox().x, MyRectangle.GetBBox().y),100,100,18,BLACK);
         if(CheckCollisionRecs(MyRectangle.GetBBox(), MyRectangle2.GetBBox()))
         {
-           
+            std::shared_ptr<CollisionEvent> eventCollision = std::make_shared<CollisionEvent>();
+            eventCollision->m_HasCollisionHappend = true;
+            Dispatcher.Dispatch(eventCollision);
         }
         
 
