@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "Helper.hpp"
+#include "CollisionEvent.hpp"
 class RectangleTest : public Tickable
 {
 public:
@@ -53,7 +54,7 @@ public:
 	Vector2 GetDimensions();
 	Rectangle GetBBox();
 
-	void OnCollision();
+	void OnCollision(std::shared_ptr<CollisionEvent> event);
 	
 
 
