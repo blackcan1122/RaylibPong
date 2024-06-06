@@ -8,5 +8,6 @@ public:
 
 	std::string GetName() const override;
 	bool m_HasCollisionHappend;
+	float CurrentDeltaTime;
 
 };

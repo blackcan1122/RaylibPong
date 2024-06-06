@@ -267,6 +267,7 @@
   <ItemGroup>
     <ClCompile Include="CollisionEvent.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
+    <ClCompile Include="Helper.cpp" />
     <ClCompile Include="RectangleTest.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="Tickable.cpp" />
@@ -281,6 +282,7 @@
     <ClInclude Include="CollisionEvent.hpp" />
     <ClInclude Include="Event.hpp" />
     <ClInclude Include="EventDispatcher.hpp" />
+    <ClInclude Include="Helper.hpp" />
     <ClInclude Include="RectangleTest.h" />
     <ClInclude Include="Tickable.h" />
     <ClInclude Include="TickableFactory.h" />

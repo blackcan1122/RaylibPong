@@ -79,13 +79,12 @@ int main()
 
     EventDispatcher Dispatcher;
 
-    Dispatcher.AddListener("CollisionEvent",[](std::shared_ptr<Event> event)
+    Dispatcher.AddListener("CollisionEvent",[&MyRectangle](std::shared_ptr<Event> event)
         {
             auto Test = std::dynamic_pointer_cast<CollisionEvent>(event);
             if (Test)
             {
-                std::cout << Test->m_HasCollisionHappend << std::endl;
-                std::cout << "Name of Event: " << Test->GetName() << std::endl;
+                MyRectangle.OnCollision(Test);
             }
         });
 
@@ -116,9 +115,15 @@ int main()
         {
             std::shared_ptr<CollisionEvent> eventCollision = std::make_shared<CollisionEvent>();
             eventCollision->m_HasCollisionHappend = true;
+            eventCollision->CurrentDeltaTime = DeltaTime;
             Dispatcher.Dispatch(eventCollision);
         }
-        
+        Vector2 TEST[2];
+
+        TEST[0] = MyRectangle.GetCenter();
+        TEST[1] = MyRectangle.CalculateForwardVector();
+
+        DrawSplineLinear(TEST, 2, 2, RED);
 
         BeginDrawing();
         ClearBackground(RAYWHITE);

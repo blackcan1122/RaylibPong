@@ -36,6 +36,9 @@
     <ClCompile Include="EventDispatcher.cpp">
       <Filter>Source Files\private\Events</Filter>
     </ClCompile>
+    <ClCompile Include="Helper.cpp">
+      <Filter>Source Files\private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tickable.h">
@@ -58,6 +61,9 @@
     </ClInclude>
     <ClInclude Include="EventDispatcher.hpp">
       <Filter>Source Files\public\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper.hpp">
+      <Filter>Source Files\public</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -56,6 +56,10 @@ public:
 
 	void OnCollision(std::shared_ptr<CollisionEvent> event);
 	
+	Vector2 GetNormalizedVelocity();
+	float GetMagnitudeVelocity();
+	Vector2 CalculateForwardVector();
+	Vector2 GetCenter();
 
 
 private:
@@ -63,7 +67,6 @@ private:
 	float Test = 100;
 	Vector2 Dimensions = { 100,100 };
 	Vector2 Velocity = { 0,0 };
-	Vector2 Direction = { 0,0 };
 	float Accel = 0;
 	float Mass = 0;
 	float Dampening = 0.97;

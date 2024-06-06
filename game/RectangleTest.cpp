@@ -10,12 +10,8 @@ void RectangleTest::Tick(float Deltatime)
 
 void RectangleTest::UpdateTransform(float Deltatime)
 {
-	// Need to be Rewritten with Direction + Acceleration + Speed to proberly determine momentum
-
 	// Accelarting
-
-
-	Accel = 30.f;
+	Accel = 30.f; // Magic Accel Number
 	if (IsKeyDown(KEY_UP))
 	{
 		Velocity.y -= Accel;
@@ -41,8 +37,6 @@ void RectangleTest::UpdateTransform(float Deltatime)
 
 	Position.x += Velocity.x * Deltatime;
 	Position.y += Velocity.y * Deltatime;
-	Direction = Velocity;
-	Vector2Normalize(Direction);
 
 	// Check if velocity is close to zero and set it to zero if so
 	if (std::abs(Velocity.x) < 0.02)
@@ -80,6 +74,59 @@ Vector2 RectangleTest::GetDimensions()
 Rectangle RectangleTest::GetBBox()
 {
 	return BBox;
+}
+
+void RectangleTest::OnCollision(std::shared_ptr<CollisionEvent> event)
+{
+	if (event)
+	{
+
+		Vector2 NormalizedVel = this->GetNormalizedVelocity();
+		float MagnitudeVel = this->GetMagnitudeVelocity();
+
+		//Invert of Vector for Faking Bounce
+		NormalizedVel = Vector2Scale(NormalizedVel, -1);
+		// Adding the Magnitude again on the new Direction
+		NormalizedVel = Vector2Scale(NormalizedVel, MagnitudeVel);
+
+		Velocity = NormalizedVel;
+
+		Vector2 NewPos = Vector2Add(this->GetPosition(), Vector2Scale(Velocity, event->CurrentDeltaTime*2));
+		Position = NewPos;
+		std::cout << Position.x << " , " << Position.y << std::endl;
+	}
+}
+
+Vector2 RectangleTest::GetNormalizedVelocity()
+{
+	Vector2 NormalizedVector = Vector2Normalize(Velocity);
+	return NormalizedVector;
+}
+
+float RectangleTest::GetMagnitudeVelocity()
+{
+	float Magnitude = std::sqrt((Velocity.x * Velocity.x) + (Velocity.y * Velocity.y));
+	return Magnitude;
+}
+
+Vector2 RectangleTest::CalculateForwardVector()
+{
+	Vector2 NormalizedVelocity = GetNormalizedVelocity();
+	Vector2 ForwardVector = Vector2Scale(NormalizedVelocity, this->GetMagnitudeVelocity() * 0.25f);
+
+	Vector2 Dim = this->GetDimensions();
+	Vector2 OffsettedPos = { GetPosition().x + (Dim.x / 2),GetPosition().y + (Dim.y / 2) };
+
+	ForwardVector = Vector2Add(ForwardVector, OffsettedPos);
+
+	return ForwardVector;
+}
+
+Vector2 RectangleTest::GetCenter()
+{
+	Vector2 Dim = this->GetDimensions();
+	Vector2 CenteredVector = { GetPosition().x + (Dim.x / 2),GetPosition().y + (Dim.y / 2) };
+	return CenteredVector;
 }
 
 
