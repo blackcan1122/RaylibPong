@@ -74,8 +74,8 @@ int main()
 
 
     SetTargetFPS(60);
-    RectangleTest MyRectangle;
-    RectangleTest MyRectangle2;
+    std::shared_ptr<RectangleTest> MyRectangle = std::make_shared<RectangleTest>();
+    std::shared_ptr<RectangleTest> MyRectangle2 = std::make_shared<RectangleTest>();
 
     EventDispatcher Dispatcher;
 
@@ -84,14 +84,14 @@ int main()
             auto Test = std::dynamic_pointer_cast<CollisionEvent>(event);
             if (Test)
             {
-                MyRectangle.OnCollision(Test);
+                MyRectangle->OnCollision(Test);
             }
         });
 
     Vector2 Pos1 = { 0,0 };
     Vector2 Pos2 = { 200,200 };
-    MyRectangle.SetPosition(Pos1);
-    MyRectangle2.SetPosition(Pos2);
+    MyRectangle->SetPosition(Pos1);
+    MyRectangle2->SetPosition(Pos2);
     float FPSTest = 60;
     // Main game loop
     while (!WindowShouldClose()) {
@@ -104,24 +104,26 @@ int main()
         // Convert the Float of DeltaTime to the Char Buffer
         std::snprintf(Buffer, sizeof(Buffer), "%f", DeltaTime);
 
-        Vector2 Temp = MyRectangle.GetPosition();
+        Vector2 Temp = MyRectangle->GetPosition();
         float test = 0;
-        MyRectangle.UpdateTransform(DeltaTime);
-        DrawText(TextFormat("Position Y is %f", MyRectangle.GetPosition().y), 250, 240, 12, BLACK);
-        DrawText(TextFormat("Position X is %f", MyRectangle.GetPosition().x), 250, 250, 12, BLACK);
+        MyRectangle->UpdateTransform(DeltaTime);
+        DrawText(TextFormat("Position Y is %f", MyRectangle->GetPosition().y), 250, 240, 12, BLACK);
+        DrawText(TextFormat("Position X is %f", MyRectangle->GetPosition().x), 250, 250, 12, BLACK);
 
-        DrawText(TextFormat("Position of BBox 1 is X:%f Y:%f", MyRectangle.GetBBox().x, MyRectangle.GetBBox().y),100,100,18,BLACK);
-        if(CheckCollisionRecs(MyRectangle.GetBBox(), MyRectangle2.GetBBox()))
+        DrawText(TextFormat("Position of BBox 1 is X:%f Y:%f", MyRectangle->GetBBox().x, MyRectangle->GetBBox().y),100,100,18,BLACK);
+        if(CheckCollisionRecs(MyRectangle->GetBBox(), MyRectangle2->GetBBox()))
         {
             std::shared_ptr<CollisionEvent> eventCollision = std::make_shared<CollisionEvent>();
             eventCollision->m_HasCollisionHappend = true;
             eventCollision->CurrentDeltaTime = DeltaTime;
+            eventCollision->Rect1 = std::dynamic_pointer_cast<Tickable>(MyRectangle);
+            eventCollision->Rect2 = std::dynamic_pointer_cast<Tickable>(MyRectangle2);
             Dispatcher.Dispatch(eventCollision);
         }
         Vector2 TEST[2];
 
-        TEST[0] = MyRectangle.GetCenter();
-        TEST[1] = MyRectangle.CalculateForwardVector();
+        TEST[0] = MyRectangle->GetCenter();
+        TEST[1] = MyRectangle->CalculateForwardVector();
 
         DrawSplineLinear(TEST, 2, 2, RED);
 

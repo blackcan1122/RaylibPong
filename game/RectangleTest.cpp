@@ -80,20 +80,79 @@ void RectangleTest::OnCollision(std::shared_ptr<CollisionEvent> event)
 {
 	if (event)
 	{
+		if (event->Rect1 == nullptr && event->Rect2 == nullptr)
+		{
+			std::cout << "Rects are nullptr" << std::endl;
+			return;
+		}
 
+		std::shared_ptr<RectangleTest> Rect1 = std::dynamic_pointer_cast<RectangleTest>(event->Rect1);
+		std::shared_ptr<RectangleTest> Rect2 = std::dynamic_pointer_cast<RectangleTest>(event->Rect2);
+
+		// Find intersection rectangle
+		Rectangle Intersection = GetCollisionRec(Rect1->GetBBox(), Rect2->GetBBox());
+		DrawRectangleLinesEx(Intersection, 5, BLUE);
+		// Calculate the collision normal
+		Vector2 CollisionNormal;
+
+		if (Intersection.width < Intersection.height) 
+		{
+			if (Rect1->GetPosition().x < Rect2->GetPosition().x) {
+				CollisionNormal = { -1, 0 }; // Left side
+			}
+			else 
+			{
+				CollisionNormal = { 1, 0 }; // Right side
+			}
+		}
+		else
+		{
+			if (Rect1->GetPosition().y < Rect2->GetPosition().y) 
+			{
+				CollisionNormal = { 0, -1 }; // Top side
+			}
+			else 
+			{
+				CollisionNormal = { 0, 1 }; // Bottom side
+			}
+		}
+
+
+
+		// Move the rectangle to the collision point
+		Vector2 IntersectionDim = { (Intersection.width + 5) * 1.5, (Intersection.height + 5) * 1.5 };
+
+		Vector2 OffsettedPos = (Vector2Add(this->GetPosition(), Vector2Multiply(CollisionNormal, IntersectionDim)));
+		this->SetPosition(OffsettedPos);
+
+		// Calculate the reflection vector
 		Vector2 NormalizedVel = this->GetNormalizedVelocity();
 		float MagnitudeVel = this->GetMagnitudeVelocity();
+		Vector2 reflection = Vector2Subtract(NormalizedVel, Vector2Scale(CollisionNormal, 2 * Vector2DotProduct(NormalizedVel, CollisionNormal)));
+		reflection = Vector2Scale(reflection, MagnitudeVel);
 
-		//Invert of Vector for Faking Bounce
-		NormalizedVel = Vector2Scale(NormalizedVel, -1);
-		// Adding the Magnitude again on the new Direction
-		NormalizedVel = Vector2Scale(NormalizedVel, MagnitudeVel);
+		//// Update velocity
+		this->Velocity = reflection;
+		
 
-		Velocity = NormalizedVel;
 
-		Vector2 NewPos = Vector2Add(this->GetPosition(), Vector2Scale(Velocity, event->CurrentDeltaTime*2));
-		Position = NewPos;
-		std::cout << Position.x << " , " << Position.y << std::endl;
+		std::cout << "Collision at: " << Intersection.x << ", " << Intersection.y << std::endl;
+		std::cout << "New Position: " << Position.x << " , " << Position.y << std::endl;
+
+
+		//Vector2 NormalizedVel = this->GetNormalizedVelocity();
+		//float MagnitudeVel = this->GetMagnitudeVelocity();
+
+		////Invert of Vector for Faking Bounce
+		//NormalizedVel = Vector2Scale(NormalizedVel, -1);
+		//// Adding the Magnitude again on the new Direction
+		//NormalizedVel = Vector2Scale(NormalizedVel, MagnitudeVel);
+
+		//Velocity = NormalizedVel;
+
+		//Vector2 NewPos = Vector2Add(this->GetPosition(), Vector2Scale(Velocity, event->CurrentDeltaTime*2));
+		//Position = NewPos;
+		//std::cout << Position.x << " , " << Position.y << std::endl;
 	}
 }
 
