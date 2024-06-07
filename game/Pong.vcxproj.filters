@@ -42,6 +42,9 @@
     <ClCompile Include="BaseCircle.cpp">
       <Filter>Source Files\private</Filter>
     </ClCompile>
+    <ClCompile Include="Physic.cpp">
+      <Filter>Source Files\private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tickable.h">
@@ -69,6 +72,9 @@
       <Filter>Source Files\public</Filter>
     </ClInclude>
     <ClInclude Include="BaseCircle.h">
+      <Filter>Source Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="Physic.hpp">
       <Filter>Source Files\public</Filter>
     </ClInclude>
   </ItemGroup>

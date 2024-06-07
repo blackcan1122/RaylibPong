@@ -6,7 +6,7 @@ void BaseCircle::Tick(float Deltatime)
 	DrawCircleShape();
 	if (IsControllable == true)
 	{
-		UpdateTransform(Deltatime);
+		UseControllTransform(Deltatime);
 	}
 }
 
@@ -15,49 +15,66 @@ void BaseCircle::SetIsControllable(bool Status)
 	IsControllable = Status;
 }
 
-
-void BaseCircle::UpdateTransform(float Deltatime)
+void BaseCircle::SetIsBoundByScreen(bool Status)
 {
+	this->IsBoundByScreen = Status;
+}
 
-	// Accelarting
-	Accel = 30.f; // Magic Accel Number
-	if (IsKeyDown(KEY_UP))
-	{
-		Velocity.y -= Accel;
-	}
-	if (IsKeyDown(KEY_DOWN))
-	{
-		Velocity.y += Accel;
-	}
-	if (IsKeyDown(KEY_RIGHT))
-	{
-		Velocity.x += Accel;
-	}
-	if (IsKeyDown(KEY_LEFT))
-	{
-		Velocity.x -= Accel;
-	}
+void BaseCircle::SetUseGravity(bool Status)
+{
+	this->GravitiyAffects = Status;
+}
 
-	// Apply Dampening
-	Velocity.x *= Dampening;
-	Velocity.y *= Dampening;
 
-	// Update position with velocity
-
-	Position.x += Velocity.x * Deltatime;
-	Position.y += Velocity.y * Deltatime;
-
-	// Check if velocity is close to zero and set it to zero if so
-	if (std::abs(Velocity.x) < 0.02)
+void BaseCircle::UseControllTransform(float Deltatime)
+{
+	if (IsControllable == false)
 	{
-		Velocity.x = 0;
-	}
-	if (std::abs(Velocity.y) < 0.02)
-	{
-		Velocity.y = 0;
-	}
+		// Accelarting
+		Accel = 30.f; // Magic Accel Number
+		if (IsKeyDown(KEY_UP))
+		{
+			Velocity.y -= Accel;
+		}
+		if (IsKeyDown(KEY_DOWN))
+		{
+			Velocity.y += Accel;
+		}
+		if (IsKeyDown(KEY_RIGHT))
+		{
+			Velocity.x += Accel;
+		}
+		if (IsKeyDown(KEY_LEFT))
+		{
+			Velocity.x -= Accel;
+		}
 
-	DrawText(TextFormat("Velocity X: %f, Velocity Y:%f", Velocity.x, Velocity.y), 50, 50, 12, BLACK);
+		// Apply Dampening
+		Velocity.x *= Dampening;
+		Velocity.y *= Dampening;
+
+		// Update position with velocity
+
+		Position.x += Velocity.x * Deltatime;
+		Position.y += Velocity.y * Deltatime;
+
+		// Check if velocity is close to zero and set it to zero if so
+		if (std::abs(Velocity.x) < 0.02)
+		{
+			Velocity.x = 0;
+		}
+		if (std::abs(Velocity.y) < 0.02)
+		{
+			Velocity.y = 0;
+		}
+
+		DrawText(TextFormat("Velocity X: %f, Velocity Y:%f", Velocity.x, Velocity.y), 50, 50, 12, BLACK);
+	}
+	else
+	{
+
+	}
+	
 }
 
 void BaseCircle::DrawCircleShape()

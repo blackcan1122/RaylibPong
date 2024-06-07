@@ -32,6 +32,7 @@ For a C++ project simply rename the file to .cpp and run premake
 #include "BaseCircle.h"
 #include "Event.hpp"
 #include "EventDispatcher.hpp"
+#include "Physic.hpp"
 
 // Define a simple C++ class that uses raylib functions
 class SimpleWindow {
@@ -96,6 +97,10 @@ int main()
     MyRectangle->SetPosition(Pos1);
     MyRectangle2->SetPosition(Pos2);
     MyCircle->SetPosition(Vector2{ 0,0 });
+    MyCircle->SetUseGravity(true);
+    MyCircle->SetIsBoundByScreen(true);
+
+    PhysicEngine PhysicEngineObj;
 
     // Init Start FPS
     float FPSTest = 60;

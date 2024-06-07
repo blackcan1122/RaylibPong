@@ -18,13 +18,25 @@ public:
 	* *****************************************
 	* Parent Methods and Variables:
 	* 
-	* virtual void SetPosition(Vector2 NewPos)
-	* virtual void SetColor(Color NewColor)
-	* virtual Vector2 GetPosition()
-	* virtual Color GetColor()
+	* METHODS:
 	* 
-	* Vector2 Position
-	* Color FColor
+	* virtual void SetPosition(Vector2 NewPos);
+	* virtual void SetColor(Color NewColor);
+	* virtual void SetIsControllable(bool Status) = 0;
+	* virtual void SetUseGravity(bool Status);
+	* virtual void SetIsBoundByScreen(bool Status);
+	* 
+	* virtual Vector2 GetPosition();
+	* virtual Color GetColor();
+	* 
+	* MEMBERS:
+	* 
+	*     
+	* bool IsBoundByScreen;
+    * bool GravitiyAffects;
+    * Vector2 Position;
+    * Color FColor;
+    * bool IsControllable;
 	* *****************************************
 	*/
 
@@ -45,7 +57,7 @@ public:
 	* *******************************
 	*/
 	
-	void UpdateTransform(float Deltatime);
+	void UseControllTransform(float Deltatime);
 	void DrawSquare();
 	Vector2 CalculateForwardVector();
 

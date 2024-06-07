@@ -270,6 +270,7 @@
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="BaseRectangle.cpp" />
+    <ClCompile Include="Physic.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="Tickable.cpp" />
     <ClCompile Include="TickableFactory.cpp" />
@@ -286,6 +287,7 @@
     <ClInclude Include="EventDispatcher.hpp" />
     <ClInclude Include="Helper.hpp" />
     <ClInclude Include="BaseRectangle.h" />
+    <ClInclude Include="Physic.hpp" />
     <ClInclude Include="Tickable.h" />
     <ClInclude Include="TickableFactory.h" />
     <ClInclude Include="TickAll.h" />

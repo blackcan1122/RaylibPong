@@ -17,14 +17,26 @@ public:
 	/*
 	* *****************************************
 	* Parent Methods and Variables:
-	* 
-	* virtual void SetPosition(Vector2 NewPos)
-	* virtual void SetColor(Color NewColor)
-	* virtual Vector2 GetPosition()
-	* virtual Color GetColor()
-	* 
-	* Vector2 Position
-	* Color FColor
+	*
+	* METHODS:
+	*
+	* virtual void SetPosition(Vector2 NewPos);
+	* virtual void SetColor(Color NewColor);
+	* virtual void SetIsControllable(bool Status) = 0;
+	* virtual void SetUseGravity(bool Status);
+	* virtual void SetIsBoundByScreen(bool Status);
+	*
+	* virtual Vector2 GetPosition();
+	* virtual Color GetColor();
+	*
+	* MEMBERS:
+	*
+	*
+	* bool IsBoundByScreen;
+	* bool GravitiyAffects;
+	* Vector2 Position;
+	* Color FColor;
+	* bool IsControllable;
 	* *****************************************
 	*/
 
@@ -33,19 +45,18 @@ public:
 	* Overriding Virtual Functions
 	* ****************************
 	*/
-
-	// Tick Function From Tickable Class
 	void Tick(float Deltatime) override;
-
 	void SetIsControllable(bool Status) override;
+	void SetIsBoundByScreen(bool Status) override;
+	void SetUseGravity(bool Status) override;
 
 	/*
 	* *******************************
-	* BaseRectangle Classes Specifics
+	* Circle Classes Specifics
 	* *******************************
 	*/
 	
-	void UpdateTransform(float Deltatime);
+	void UseControllTransform(float Deltatime);
 	void DrawCircleShape();
 	Vector2 CalculateForwardVector();
 
@@ -67,7 +78,7 @@ public:
 
 
 private:
-	bool isBoundByScreen = true;
+
 	float Radius = 15.f;
 	Vector2 Velocity = { 0,0 };
 	float Accel = 0;

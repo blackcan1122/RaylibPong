@@ -7,7 +7,7 @@ void BaseRectangle::Tick(float Deltatime)
 	DrawSquare();
 	if (IsControllable == true)
 	{
-		UpdateTransform(Deltatime);
+		UseControllTransform(Deltatime);
 	}
 
 }
@@ -18,7 +18,7 @@ void BaseRectangle::SetIsControllable(bool Status)
 }
 
 
-void BaseRectangle::UpdateTransform(float Deltatime)
+void BaseRectangle::UseControllTransform(float Deltatime)
 {
 	// Accelarting
 	Accel = 30.f; // Magic Accel Number
