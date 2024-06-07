@@ -17,16 +17,18 @@ public:
 
     virtual void SetPosition(Vector2 NewPos);
     virtual void SetColor(Color NewColor);
-    virtual void SetSpeed(float NewSpeed);
+    virtual void SetIsControllable(bool Status) = 0;
 
     virtual Vector2 GetPosition();
     virtual Color GetColor();
 
 protected:
 
+    bool IsBoundByScreen;
+    bool GravitiyAffects;
     Vector2 Position;
     Color FColor;
-    float Speed;
+    bool IsControllable;
 };
 
 #endif // TICKABLE_H

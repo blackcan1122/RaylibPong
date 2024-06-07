@@ -265,10 +265,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseCircle.cpp" />
     <ClCompile Include="CollisionEvent.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="Helper.cpp" />
-    <ClCompile Include="RectangleTest.cpp" />
+    <ClCompile Include="BaseRectangle.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="Tickable.cpp" />
     <ClCompile Include="TickableFactory.cpp" />
@@ -279,11 +280,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseCircle.h" />
     <ClInclude Include="CollisionEvent.hpp" />
     <ClInclude Include="Event.hpp" />
     <ClInclude Include="EventDispatcher.hpp" />
     <ClInclude Include="Helper.hpp" />
-    <ClInclude Include="RectangleTest.h" />
+    <ClInclude Include="BaseRectangle.h" />
     <ClInclude Include="Tickable.h" />
     <ClInclude Include="TickableFactory.h" />
     <ClInclude Include="TickAll.h" />

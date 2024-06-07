@@ -24,7 +24,7 @@
     <ClCompile Include="Tickable.cpp">
       <Filter>Source Files\private</Filter>
     </ClCompile>
-    <ClCompile Include="RectangleTest.cpp">
+    <ClCompile Include="BaseRectangle.cpp">
       <Filter>Source Files\private</Filter>
     </ClCompile>
     <ClCompile Include="TickableFactory.cpp">
@@ -39,6 +39,9 @@
     <ClCompile Include="Helper.cpp">
       <Filter>Source Files\private</Filter>
     </ClCompile>
+    <ClCompile Include="BaseCircle.cpp">
+      <Filter>Source Files\private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tickable.h">
@@ -50,7 +53,7 @@
     <ClInclude Include="TickableFactory.h">
       <Filter>Source Files\public</Filter>
     </ClInclude>
-    <ClInclude Include="RectangleTest.h">
+    <ClInclude Include="BaseRectangle.h">
       <Filter>Source Files\public</Filter>
     </ClInclude>
     <ClInclude Include="CollisionEvent.hpp">
@@ -63,6 +66,9 @@
       <Filter>Source Files\public\Events</Filter>
     </ClInclude>
     <ClInclude Include="Helper.hpp">
+      <Filter>Source Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCircle.h">
       <Filter>Source Files\public</Filter>
     </ClInclude>
   </ItemGroup>

@@ -28,7 +28,8 @@ For a C++ project simply rename the file to .cpp and run premake
 #include <stdio.h>
 #include <cstdio>
 #include "TickAll.h"
-#include "RectangleTest.h"
+#include "BaseRectangle.h"
+#include "BaseCircle.h"
 #include "Event.hpp"
 #include "EventDispatcher.hpp"
 
@@ -74,8 +75,9 @@ int main()
 
 
     SetTargetFPS(60);
-    std::shared_ptr<RectangleTest> MyRectangle = std::make_shared<RectangleTest>();
-    std::shared_ptr<RectangleTest> MyRectangle2 = std::make_shared<RectangleTest>();
+    std::shared_ptr<BaseRectangle> MyRectangle = std::make_shared<BaseRectangle>();
+    std::shared_ptr<BaseRectangle> MyRectangle2 = std::make_shared<BaseRectangle>();
+    std::shared_ptr<BaseCircle> MyCircle = std::make_shared<BaseCircle>();
 
     EventDispatcher Dispatcher;
 
@@ -88,29 +90,29 @@ int main()
             }
         });
 
+    // Initializing Start Position
     Vector2 Pos1 = { 0,0 };
     Vector2 Pos2 = { 200,200 };
     MyRectangle->SetPosition(Pos1);
     MyRectangle2->SetPosition(Pos2);
+    MyCircle->SetPosition(Vector2{ 0,0 });
+
+    // Init Start FPS
     float FPSTest = 60;
+
     // Main game loop
     while (!WindowShouldClose()) {
 
-        //FPSTest += GetMouseWheelMove();
-        //SetTargetFPS(FPSTest);
         DrawFPS(0, 0);
         float DeltaTime = GetFrameTime();
-        char Buffer[16];
-        // Convert the Float of DeltaTime to the Char Buffer
-        std::snprintf(Buffer, sizeof(Buffer), "%f", DeltaTime);
+        TickAll(DeltaTime);
+        // Draw Deltatime to Screen
+        DrawText(TextFormat("%f", DeltaTime), 200, 200, 16, BLUE);
 
-        Vector2 Temp = MyRectangle->GetPosition();
-        float test = 0;
-        MyRectangle->UpdateTransform(DeltaTime);
-        DrawText(TextFormat("Position Y is %f", MyRectangle->GetPosition().y), 250, 240, 12, BLACK);
-        DrawText(TextFormat("Position X is %f", MyRectangle->GetPosition().x), 250, 250, 12, BLACK);
+        // Calling the UpdateTransform Function which implements Controlls (Will be changed to tick and Toggled with a bool or so)
+        MyCircle->SetIsControllable(true);
 
-        DrawText(TextFormat("Position of BBox 1 is X:%f Y:%f", MyRectangle->GetBBox().x, MyRectangle->GetBBox().y),100,100,18,BLACK);
+        // Check for Collision for CollisionEvent Dispatch and filling in data
         if(CheckCollisionRecs(MyRectangle->GetBBox(), MyRectangle2->GetBBox()))
         {
             std::shared_ptr<CollisionEvent> eventCollision = std::make_shared<CollisionEvent>();
@@ -120,24 +122,19 @@ int main()
             eventCollision->Rect2 = std::dynamic_pointer_cast<Tickable>(MyRectangle2);
             Dispatcher.Dispatch(eventCollision);
         }
-        Vector2 TEST[2];
 
-        TEST[0] = MyRectangle->GetCenter();
-        TEST[1] = MyRectangle->CalculateForwardVector();
+        // Debug Velocity Vector
+        Vector2 DebugVelVector[2];
+        DebugVelVector[0] = MyRectangle->GetCenter();
+        DebugVelVector[1] = MyRectangle->CalculateForwardVector();
+        DrawSplineLinear(DebugVelVector, 2, 2, RED);
 
-        DrawSplineLinear(TEST, 2, 2, RED);
-
+        //Refresh Window 
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
 
-        TickAll(DeltaTime);
-
-        // Draw the text
-        DrawText(Buffer, 200, 200, 16, BLUE);
-
         EndDrawing();
-        
     }
 
     CloseWindow();

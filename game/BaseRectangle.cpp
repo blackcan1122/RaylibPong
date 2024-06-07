@@ -1,14 +1,24 @@
-#include "RectangleTest.h"
+#include "BaseRectangle.h"
 #include "iostream"
 
-void RectangleTest::Tick(float Deltatime)
+void BaseRectangle::Tick(float Deltatime)
 {
 	SetBBox();
 	DrawSquare();
+	if (IsControllable == true)
+	{
+		UpdateTransform(Deltatime);
+	}
+
+}
+
+void BaseRectangle::SetIsControllable(bool Status)
+{
+	IsControllable = Status;
 }
 
 
-void RectangleTest::UpdateTransform(float Deltatime)
+void BaseRectangle::UpdateTransform(float Deltatime)
 {
 	// Accelarting
 	Accel = 30.f; // Magic Accel Number
@@ -51,32 +61,32 @@ void RectangleTest::UpdateTransform(float Deltatime)
 	DrawText(TextFormat("Velocity X: %f, Velocity Y:%f", Velocity.x, Velocity.y), 50, 50, 12, BLACK);
 }
 
-void RectangleTest::DrawSquare()
+void BaseRectangle::DrawSquare()
 {
 	DrawRectangle(Position.x, Position.y, Dimensions.x, Dimensions.y, FColor);
 }
 
-void RectangleTest::SetDimensions(Vector2 NewDimensions)
+void BaseRectangle::SetDimensions(Vector2 NewDimensions)
 {
 	Dimensions = NewDimensions;
 }
 
-void RectangleTest::SetBBox()
+void BaseRectangle::SetBBox()
 {
 	BBox = { Position.x, Position.y, Dimensions.x, Dimensions.y };
 }
 
-Vector2 RectangleTest::GetDimensions()
+Vector2 BaseRectangle::GetDimensions()
 {
 	return Dimensions;
 }
 
-Rectangle RectangleTest::GetBBox()
+Rectangle BaseRectangle::GetBBox()
 {
 	return BBox;
 }
 
-void RectangleTest::OnCollision(std::shared_ptr<CollisionEvent> event)
+void BaseRectangle::OnCollision(std::shared_ptr<CollisionEvent> event)
 {
 	if (event)
 	{
@@ -86,8 +96,8 @@ void RectangleTest::OnCollision(std::shared_ptr<CollisionEvent> event)
 			return;
 		}
 
-		std::shared_ptr<RectangleTest> Rect1 = std::dynamic_pointer_cast<RectangleTest>(event->Rect1);
-		std::shared_ptr<RectangleTest> Rect2 = std::dynamic_pointer_cast<RectangleTest>(event->Rect2);
+		std::shared_ptr<BaseRectangle> Rect1 = std::dynamic_pointer_cast<BaseRectangle>(event->Rect1);
+		std::shared_ptr<BaseRectangle> Rect2 = std::dynamic_pointer_cast<BaseRectangle>(event->Rect2);
 
 		// Find intersection rectangle
 		Rectangle Intersection = GetCollisionRec(Rect1->GetBBox(), Rect2->GetBBox());
@@ -120,7 +130,7 @@ void RectangleTest::OnCollision(std::shared_ptr<CollisionEvent> event)
 
 
 		// Move the rectangle to the collision point
-		Vector2 IntersectionDim = { (Intersection.width + 5) * 1.5, (Intersection.height + 5) * 1.5 };
+		Vector2 IntersectionDim = { (Intersection.width + 10) * 1.5, (Intersection.height + 10) * 1.5 };
 
 		Vector2 OffsettedPos = (Vector2Add(this->GetPosition(), Vector2Multiply(CollisionNormal, IntersectionDim)));
 		this->SetPosition(OffsettedPos);
@@ -138,37 +148,22 @@ void RectangleTest::OnCollision(std::shared_ptr<CollisionEvent> event)
 
 		std::cout << "Collision at: " << Intersection.x << ", " << Intersection.y << std::endl;
 		std::cout << "New Position: " << Position.x << " , " << Position.y << std::endl;
-
-
-		//Vector2 NormalizedVel = this->GetNormalizedVelocity();
-		//float MagnitudeVel = this->GetMagnitudeVelocity();
-
-		////Invert of Vector for Faking Bounce
-		//NormalizedVel = Vector2Scale(NormalizedVel, -1);
-		//// Adding the Magnitude again on the new Direction
-		//NormalizedVel = Vector2Scale(NormalizedVel, MagnitudeVel);
-
-		//Velocity = NormalizedVel;
-
-		//Vector2 NewPos = Vector2Add(this->GetPosition(), Vector2Scale(Velocity, event->CurrentDeltaTime*2));
-		//Position = NewPos;
-		//std::cout << Position.x << " , " << Position.y << std::endl;
 	}
 }
 
-Vector2 RectangleTest::GetNormalizedVelocity()
+Vector2 BaseRectangle::GetNormalizedVelocity()
 {
 	Vector2 NormalizedVector = Vector2Normalize(Velocity);
 	return NormalizedVector;
 }
 
-float RectangleTest::GetMagnitudeVelocity()
+float BaseRectangle::GetMagnitudeVelocity()
 {
 	float Magnitude = std::sqrt((Velocity.x * Velocity.x) + (Velocity.y * Velocity.y));
 	return Magnitude;
 }
 
-Vector2 RectangleTest::CalculateForwardVector()
+Vector2 BaseRectangle::CalculateForwardVector()
 {
 	Vector2 NormalizedVelocity = GetNormalizedVelocity();
 	Vector2 ForwardVector = Vector2Scale(NormalizedVelocity, this->GetMagnitudeVelocity() * 0.25f);
@@ -181,7 +176,7 @@ Vector2 RectangleTest::CalculateForwardVector()
 	return ForwardVector;
 }
 
-Vector2 RectangleTest::GetCenter()
+Vector2 BaseRectangle::GetCenter()
 {
 	Vector2 Dim = this->GetDimensions();
 	Vector2 CenteredVector = { GetPosition().x + (Dim.x / 2),GetPosition().y + (Dim.y / 2) };

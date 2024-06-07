@@ -5,10 +5,10 @@
 #include "raymath.h"
 #include "Helper.hpp"
 #include "CollisionEvent.hpp"
-class RectangleTest : public Tickable
+class BaseRectangle : public Tickable
 {
 public:
-	RectangleTest()
+	BaseRectangle()
 	{
 		TickableFactory::Register(this);	
     }
@@ -37,14 +37,17 @@ public:
 	// Tick Function From Tickable Class
 	void Tick(float Deltatime) override;
 
+	void SetIsControllable(bool Status) override;
+
 	/*
 	* *******************************
-	* RectangleTest Classes Specifics
+	* BaseRectangle Classes Specifics
 	* *******************************
 	*/
 	
 	void UpdateTransform(float Deltatime);
 	void DrawSquare();
+	Vector2 CalculateForwardVector();
 
 	// Setter Functions specific for Rectangles
 	void SetDimensions(Vector2 NewDimensions);
@@ -52,25 +55,25 @@ public:
 
 	// Getter Functions Specific for Rectangles
 	Vector2 GetDimensions();
+	Vector2 GetNormalizedVelocity();
+	Vector2 GetCenter();
 	Rectangle GetBBox();
+	float GetMagnitudeVelocity();
 
+	// Collision Function Event
 	void OnCollision(std::shared_ptr<CollisionEvent> event);
 	
-	Vector2 GetNormalizedVelocity();
-	float GetMagnitudeVelocity();
-	Vector2 CalculateForwardVector();
-	Vector2 GetCenter();
+
+
+
 
 
 private:
 
-	float Test = 100;
 	Vector2 Dimensions = { 100,100 };
 	Vector2 Velocity = { 0,0 };
 	float Accel = 0;
-	float Mass = 0;
 	float Dampening = 0.97;
-
 	Rectangle BBox;
 
 };
