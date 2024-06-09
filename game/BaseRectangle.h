@@ -12,6 +12,10 @@ public:
 	{
 		TickableFactory::Register(this);	
     }
+	~BaseRectangle() override
+	{
+		TickableFactory::Unregister(this);
+	}
 
 public:
 	/*
@@ -50,6 +54,8 @@ public:
 	void Tick(float Deltatime) override;
 
 	void SetIsControllable(bool Status) override;
+	bool GetGravityAffected() override;
+	void SetPosition(Vector2 NewPos) override;
 
 	/*
 	* *******************************
@@ -82,6 +88,7 @@ public:
 
 private:
 
+	bool GravitiyAffects;
 	Vector2 Dimensions = { 100,100 };
 	Vector2 Velocity = { 0,0 };
 	float Accel = 0;

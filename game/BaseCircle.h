@@ -12,6 +12,10 @@ public:
 	{
 		TickableFactory::Register(this);	
     }
+	~BaseCircle() override
+	{
+		TickableFactory::Unregister(this);
+	}
 
 public:
 	/*
@@ -46,9 +50,13 @@ public:
 	* ****************************
 	*/
 	void Tick(float Deltatime) override;
+
 	void SetIsControllable(bool Status) override;
 	void SetIsBoundByScreen(bool Status) override;
 	void SetUseGravity(bool Status) override;
+	void SetPosition(Vector2 NewPos) override;
+
+	bool GetGravityAffected() override;
 
 	/*
 	* *******************************
@@ -79,6 +87,7 @@ public:
 
 private:
 
+	bool GravitiyAffects;
 	float Radius = 15.f;
 	Vector2 Velocity = { 0,0 };
 	float Accel = 0;

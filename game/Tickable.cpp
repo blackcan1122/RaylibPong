@@ -1,5 +1,9 @@
 #include "Tickable.h"
 
+Tickable::~Tickable()
+{
+}
+
 void Tickable::SetPosition(Vector2 NewPos)
 {
 	Position = NewPos;

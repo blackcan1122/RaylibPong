@@ -33,37 +33,10 @@ For a C++ project simply rename the file to .cpp and run premake
 #include "Event.hpp"
 #include "EventDispatcher.hpp"
 #include "Physic.hpp"
-
-// Define a simple C++ class that uses raylib functions
-class SimpleWindow {
-public:
-    SimpleWindow(int width, int height, const char* title) {
-        RLAPI::InitWindow(width, height, title); // Initialize the window using raylib
-        RLAPI::SetTargetFPS(18); // Set the frame rate
-    }
-
-    ~SimpleWindow() {
-        CloseWindow(); // Close the window using raylib
-    }
-
-    bool ShouldClose() const {
-        return WindowShouldClose(); // Check if the window should close using raylib
-    }
-
-    void BeginDrawing() const {
-        RLAPI::BeginDrawing(); // Start drawing using raylib
-    }
-
-    void EndDrawing() const {
-        RLAPI::EndDrawing(); // End drawing using raylib
-    }
-
-    void ClearBackground(Color color) const {
-        RLAPI::ClearBackground(color); // Clear the background using raylib
-    }
-
-    
-};
+#include <functional>
+#include <memory>
+#include <unordered_map>
+#include <vector>
 
 const int screenWidth = 800;
 const int screenHeight = 600;
@@ -80,9 +53,11 @@ int main()
     std::shared_ptr<BaseRectangle> MyRectangle2 = std::make_shared<BaseRectangle>();
     std::shared_ptr<BaseCircle> MyCircle = std::make_shared<BaseCircle>();
 
+    std::vector<std::shared_ptr<BaseRectangle>> RuntimeRectangles;
+
     EventDispatcher Dispatcher;
 
-    Dispatcher.AddListener("CollisionEvent",[&MyRectangle](std::shared_ptr<Event> event)
+    Dispatcher.AddListener("CollisionEvent",[MyRectangle](std::shared_ptr<Event> event)
         {
             auto Test = std::dynamic_pointer_cast<CollisionEvent>(event);
             if (Test)
@@ -91,22 +66,43 @@ int main()
             }
         });
 
+
     // Initializing Start Position
     Vector2 Pos1 = { 0,0 };
     Vector2 Pos2 = { 200,200 };
+    MyCircle->SetPosition(Vector2{ 0,0 });
+    // Init Start Parameter of Objects
     MyRectangle->SetPosition(Pos1);
     MyRectangle2->SetPosition(Pos2);
-    MyCircle->SetPosition(Vector2{ 0,0 });
+    MyRectangle2->SetUseGravity(true);
     MyCircle->SetUseGravity(true);
     MyCircle->SetIsBoundByScreen(true);
+    MyCircle->SetIsControllable(false);
+    MyRectangle->SetIsControllable(true);
 
+    // Creating PhysicEngineObject
     PhysicEngine PhysicEngineObj;
 
     // Init Start FPS
     float FPSTest = 60;
 
     // Main game loop
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose()) 
+    {
+        
+        if (IsKeyPressedRepeat(KEY_TAB))
+        {
+            RuntimeRectangles.push_back(std::make_shared<BaseRectangle>());
+            RuntimeRectangles[RuntimeRectangles.size() - 1]->SetIsControllable(false);
+            RuntimeRectangles[RuntimeRectangles.size() - 1]->SetUseGravity(true);
+        }
+        if (IsKeyPressedRepeat(KEY_D))
+        {
+            if (RuntimeRectangles.size() > 1)
+            {
+                RuntimeRectangles.pop_back();
+            }
+        }
 
         DrawFPS(0, 0);
         float DeltaTime = GetFrameTime();
@@ -127,6 +123,8 @@ int main()
             eventCollision->Rect2 = std::dynamic_pointer_cast<Tickable>(MyRectangle2);
             Dispatcher.Dispatch(eventCollision);
         }
+
+        DrawText(TextFormat("There are Currently %d", TickableFactory::GetTickables().size()), 500, 500, 18, RED);
 
         // Debug Velocity Vector
         Vector2 DebugVelVector[2];

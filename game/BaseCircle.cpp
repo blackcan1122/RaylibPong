@@ -25,11 +25,19 @@ void BaseCircle::SetUseGravity(bool Status)
 	this->GravitiyAffects = Status;
 }
 
+void BaseCircle::SetPosition(Vector2 NewPos)
+{
+	Position = NewPos;
+}
+
+bool BaseCircle::GetGravityAffected()
+{
+	return GravityAffects;
+}
+
 
 void BaseCircle::UseControllTransform(float Deltatime)
 {
-	if (IsControllable == false)
-	{
 		// Accelarting
 		Accel = 30.f; // Magic Accel Number
 		if (IsKeyDown(KEY_UP))
@@ -69,11 +77,6 @@ void BaseCircle::UseControllTransform(float Deltatime)
 		}
 
 		DrawText(TextFormat("Velocity X: %f, Velocity Y:%f", Velocity.x, Velocity.y), 50, 50, 12, BLACK);
-	}
-	else
-	{
-
-	}
 	
 }
 

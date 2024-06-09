@@ -24,6 +24,20 @@ public:
         GlobalTickables.erase(it, GlobalTickables.end());
     }
 
+    static void Unregister(Tickable* Tickable)
+    {
+        auto it = std::find(GlobalTickables.begin(), GlobalTickables.end(), Tickable);
+
+        if (it == GlobalTickables.end())
+        {
+            std::cout << "There were issues Removing Object from Container" << std::endl;
+            return;
+        }
+        
+        GlobalTickables.erase(it);
+        std::cout << "Sucessfully Deleted" << std::endl;
+    }
+
     // Create a static function to register tickable objects
     static void Register(Tickable* tickable) {
         GlobalTickables.push_back(tickable);

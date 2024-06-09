@@ -9,25 +9,23 @@
 class Tickable {
 public:
     Tickable() = default;
-    virtual ~Tickable()                     // Virtual destructor for proper cleanup
-    {
-        DrawCircle(200, 200, 100, RED);
-    }
+    virtual ~Tickable();       // Virtual destructor for proper cleanup
     virtual void Tick(float deltaTime) = 0;  // Pure virtual method
-
-    virtual void SetPosition(Vector2 NewPos);
-    virtual void SetColor(Color NewColor);
+    virtual void SetPosition(Vector2 NewPos) = 0;
     virtual void SetIsControllable(bool Status) = 0;
+
+    virtual void SetColor(Color NewColor);
     virtual void SetUseGravity(bool Status);
     virtual void SetIsBoundByScreen(bool Status);
-
     virtual Vector2 GetPosition();
     virtual Color GetColor();
+    virtual bool GetGravityAffected() = 0;
 
 protected:
 
+    bool GravitiyAffects;
     bool IsBoundByScreen = false;
-    bool GravitiyAffects = false;
+    bool GravityAffects = false;
     Vector2 Position = { 0,0 };
     Color FColor = BLACK;
     bool IsControllable = false;

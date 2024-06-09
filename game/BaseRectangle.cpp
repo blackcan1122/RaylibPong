@@ -1,5 +1,8 @@
 #include "BaseRectangle.h"
 #include "iostream"
+#include <math.h>
+#include <cmath>
+#include <algorithm>
 
 void BaseRectangle::Tick(float Deltatime)
 {
@@ -15,6 +18,16 @@ void BaseRectangle::Tick(float Deltatime)
 void BaseRectangle::SetIsControllable(bool Status)
 {
 	IsControllable = Status;
+}
+
+bool BaseRectangle::GetGravityAffected()
+{
+	return GravityAffects;
+}
+
+void BaseRectangle::SetPosition(Vector2 NewPos)
+{
+	Position = NewPos;
 }
 
 
@@ -130,7 +143,8 @@ void BaseRectangle::OnCollision(std::shared_ptr<CollisionEvent> event)
 
 
 		// Move the rectangle to the collision point
-		Vector2 IntersectionDim = { (Intersection.width + 10) * 1.5, (Intersection.height + 10) * 1.5 };
+		Vector2 IntersectionDim = { (Intersection.width + 2) * (std::abs(Vector2Length(this->Velocity))/100),
+									(Intersection.height + 2) * (std::abs(Vector2Length(this->Velocity)) / 100) };
 
 		Vector2 OffsettedPos = (Vector2Add(this->GetPosition(), Vector2Multiply(CollisionNormal, IntersectionDim)));
 		this->SetPosition(OffsettedPos);
