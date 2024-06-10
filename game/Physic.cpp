@@ -47,6 +47,7 @@ void PhysicEngine::CollectAllObjectsForGravity()
 void PhysicEngine::ApplyGravity(float Deltatime)
 {
 	std::shared_ptr<GravityEvent> gravityEvent = std::make_shared<GravityEvent>();
+	gravityEvent->Gravity = 9.87;
 	CurrentDispatcher->Dispatch(gravityEvent);
 }
 

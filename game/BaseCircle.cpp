@@ -40,6 +40,7 @@ Vector2 BaseCircle::CalculatePosition(Vector2& CurrentPos, Vector2& Velocity, fl
 
 	ReturnArray = Vector2Add(Position, Vector2Scale(Velocity,Deltatime));
 
+	
 	return ReturnArray;
 
 }
@@ -179,12 +180,23 @@ void BaseCircle::OnCollision(std::shared_ptr<CollisionEvent> event)
 void BaseCircle::CalculateGravity(std::shared_ptr<GravityEvent> event)
 {
 	float Gravity = event->Gravity;
-	Vector2 Velocity = { 0,0 };
 
 	Velocity.y += Gravity;
-	
 
+	Velocity.x *= Dampening;
+	Velocity.y *= Dampening;
 
+	SetPosition(Vector2Add(this->GetPosition(), Velocity));
+
+	if (this->GetPosition().y > GetScreenHeight())
+	{
+		Vector2 Pos = this->GetPosition();
+		Pos.y -= (Pos.y - GetScreenHeight());
+		SetPosition(Pos);
+		Vector2 Helper = { 0,-1 };
+		Velocity = Vector2Reflect(Velocity, Helper);
+	}
+	std::cout << this->GetPosition().x << " , " << this->GetPosition().y << std::endl;
 }
 
 Vector2 BaseCircle::GetNormalizedVelocity()

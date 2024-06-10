@@ -108,6 +108,8 @@ int main()
     MyCircle->SetUseGravity(true);
     MyCircle->SetIsBoundByScreen(true);
     MyCircle->SetIsControllable(false);
+    Vector2 PosCircle = { screenWidth / 2,0 };
+    MyCircle->SetPosition(PosCircle);
     MyRectangle->SetIsControllable(true);
 
 
