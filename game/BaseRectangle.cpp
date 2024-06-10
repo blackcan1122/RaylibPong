@@ -30,6 +30,11 @@ void BaseRectangle::SetPosition(Vector2 NewPos)
 	Position = NewPos;
 }
 
+void BaseRectangle::SetUseGravity(bool Status)
+{
+	GravityAffects = Status;
+}
+
 
 void BaseRectangle::UseControllTransform(float Deltatime)
 {

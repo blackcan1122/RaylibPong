@@ -1,8 +1,13 @@
 #pragma once
+#include "CollisionEvent.hpp"
+#include "GravityEvent.hpp"
+#include "Event.hpp"
 #include "raylib.h"
 #include "Tickable.h"
 #include "raylib.h"
 #include "raymath.h"
+#include "DispatcherEvent.hpp"
+#include "EventDispatcher.hpp"
 
 class PhysicEngine : Tickable
 {
@@ -30,7 +35,7 @@ class PhysicEngine : Tickable
 *
 *
 * bool IsBoundByScreen;
-* bool GravitiyAffects;
+* bool GravityAffects;
 * Vector2 Position;
 * Color FColor;
 * bool IsControllable;
@@ -63,6 +68,7 @@ public:
 */
 	void CollectAllObjectsForGravity();
 	void ApplyGravity(float Deltatime);
+	void SetDispatcher(EventDispatcher* Dispatcher);
 
 
 /*
@@ -72,4 +78,6 @@ public:
 */
 	Vector2 Gravity = { 0,9.82 };
 	std::vector<Tickable*> GravityAffected;
+
+	EventDispatcher* CurrentDispatcher;
 };

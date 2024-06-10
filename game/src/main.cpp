@@ -32,6 +32,7 @@ For a C++ project simply rename the file to .cpp and run premake
 #include "BaseCircle.h"
 #include "Event.hpp"
 #include "EventDispatcher.hpp"
+#include "DispatcherEvent.hpp"
 #include "Physic.hpp"
 #include <functional>
 #include <memory>
@@ -55,6 +56,10 @@ int main()
 
     std::vector<std::shared_ptr<BaseRectangle>> RuntimeRectangles;
 
+    // Creating PhysicEngineObject
+    PhysicEngine PhysicEngineObj;
+
+
     EventDispatcher Dispatcher;
 
     Dispatcher.AddListener("CollisionEvent",[MyRectangle](std::shared_ptr<Event> event)
@@ -66,6 +71,30 @@ int main()
             }
         });
 
+    Dispatcher.AddListener("DispatcherEvent", [&PhysicEngineObj,&Dispatcher](std::shared_ptr<Event> event)
+        {
+            auto Test = std::dynamic_pointer_cast<DispatcherEvent>(event);
+            if (Test)
+            {
+                PhysicEngineObj.SetDispatcher(&Dispatcher);
+            }
+        });
+
+    Dispatcher.AddListener("GravityEvent", [&MyCircle](std::shared_ptr<Event> event)
+        {
+            auto Test = std::dynamic_pointer_cast<GravityEvent>(event);
+            if (Test)
+            {
+                MyCircle->CalculateGravity(Test);
+            }
+        });
+
+
+    std::shared_ptr<DispatcherEvent> dispatcherEvent = std::make_shared<DispatcherEvent>();
+    Dispatcher.Dispatch(dispatcherEvent);
+
+    std::cout << PhysicEngineObj.CurrentDispatcher << std::endl;
+    std::cout << "Dispatcher Event was successfully set" << std::endl;
 
     // Initializing Start Position
     Vector2 Pos1 = { 0,0 };
@@ -73,18 +102,20 @@ int main()
     MyCircle->SetPosition(Vector2{ 0,0 });
     // Init Start Parameter of Objects
     MyRectangle->SetPosition(Pos1);
+    MyRectangle->SetUseGravity(false);
     MyRectangle2->SetPosition(Pos2);
-    MyRectangle2->SetUseGravity(true);
+    MyRectangle2->SetUseGravity(false);
     MyCircle->SetUseGravity(true);
     MyCircle->SetIsBoundByScreen(true);
     MyCircle->SetIsControllable(false);
     MyRectangle->SetIsControllable(true);
 
-    // Creating PhysicEngineObject
-    PhysicEngine PhysicEngineObj;
 
+    PhysicEngineObj.CollectAllObjectsForGravity();
     // Init Start FPS
     float FPSTest = 60;
+
+    
 
     // Main game loop
     while (!WindowShouldClose()) 
@@ -95,6 +126,7 @@ int main()
             RuntimeRectangles.push_back(std::make_shared<BaseRectangle>());
             RuntimeRectangles[RuntimeRectangles.size() - 1]->SetIsControllable(false);
             RuntimeRectangles[RuntimeRectangles.size() - 1]->SetUseGravity(true);
+            PhysicEngineObj.CollectAllObjectsForGravity();
         }
         if (IsKeyPressedRepeat(KEY_D))
         {
@@ -102,6 +134,7 @@ int main()
             {
                 RuntimeRectangles.pop_back();
             }
+            PhysicEngineObj.CollectAllObjectsForGravity();
         }
 
         DrawFPS(0, 0);
@@ -109,9 +142,6 @@ int main()
         TickAll(DeltaTime);
         // Draw Deltatime to Screen
         DrawText(TextFormat("%f", DeltaTime), 200, 200, 16, BLUE);
-
-        // Calling the UpdateTransform Function which implements Controlls (Will be changed to tick and Toggled with a bool or so)
-        MyCircle->SetIsControllable(true);
 
         // Check for Collision for CollisionEvent Dispatch and filling in data
         if(CheckCollisionRecs(MyRectangle->GetBBox(), MyRectangle2->GetBBox()))

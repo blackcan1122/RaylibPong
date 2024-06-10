@@ -45,6 +45,12 @@
     <ClCompile Include="Physic.cpp">
       <Filter>Source Files\private</Filter>
     </ClCompile>
+    <ClCompile Include="GravityEvent.cpp">
+      <Filter>Source Files\private\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="DispatcherEvent.cpp">
+      <Filter>Source Files\private\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tickable.h">
@@ -76,6 +82,12 @@
     </ClInclude>
     <ClInclude Include="Physic.hpp">
       <Filter>Source Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="GravityEvent.hpp">
+      <Filter>Source Files\public\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="DispatcherEvent.hpp">
+      <Filter>Source Files\public\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

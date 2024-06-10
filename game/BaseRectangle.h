@@ -37,7 +37,7 @@ public:
 	* 
 	*     
 	* bool IsBoundByScreen;
-    * bool GravitiyAffects;
+    * bool GravityAffects;
     * Vector2 Position;
     * Color FColor;
     * bool IsControllable;
@@ -56,6 +56,7 @@ public:
 	void SetIsControllable(bool Status) override;
 	bool GetGravityAffected() override;
 	void SetPosition(Vector2 NewPos) override;
+	virtual void SetUseGravity(bool Status) override;
 
 	/*
 	* *******************************
@@ -88,7 +89,7 @@ public:
 
 private:
 
-	bool GravitiyAffects;
+	bool GravityAffects;
 	Vector2 Dimensions = { 100,100 };
 	Vector2 Velocity = { 0,0 };
 	float Accel = 0;

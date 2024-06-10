@@ -16,7 +16,7 @@ void Tickable::SetColor(Color NewColor)
 
 void Tickable::SetUseGravity(bool Status)
 {
-	GravitiyAffects = false;
+	this->GravityAffects = Status;
 }
 
 void Tickable::SetIsBoundByScreen(bool Status)
@@ -33,4 +33,9 @@ Vector2 Tickable::GetPosition()
 Color Tickable::GetColor()
 {
 	return FColor;
+}
+
+Vector2 Tickable::CalculatePosition(Vector2& CurrentPos, Vector2& Velocity, float& Dampening, Vector2& Accel, const float Deltatime)
+{
+	return Vector2();
 }

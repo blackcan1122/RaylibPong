@@ -3,7 +3,6 @@
 
 void PhysicEngine::Tick(float Deltatime)
 {
-	CollectAllObjectsForGravity();
 	ApplyGravity(Deltatime);
 }
 
@@ -31,13 +30,14 @@ void PhysicEngine::CollectAllObjectsForGravity()
 	{
 		if (Object == this)
 		{
-			std::cout << "Own Reference" << std::endl;
+			//std::cout << "Own Reference" << std::endl;
 			continue;
 		}
 		// Somehow all objects except self reference land here
 		if (Object->GetGravityAffected() == false)
 		{
-			std::cout << "Not Gravity" << std::endl;
+			std::cout << Object->GetGravityAffected() << std::endl;
+			//std::cout << "Not Gravity" << std::endl;
 			continue;
 		}
 		GravityAffected.push_back(Object);
@@ -46,11 +46,11 @@ void PhysicEngine::CollectAllObjectsForGravity()
 
 void PhysicEngine::ApplyGravity(float Deltatime)
 {
-	//std::cout << GravityAffected.size() << std::endl;
-	for (const auto& Object : GravityAffected)
-	{
-		Vector2 Temp = Object->GetPosition();
-		Temp = (Vector2Add(Temp,(Vector2Scale(Gravity,Deltatime*100))));
-		Object->SetPosition(Temp);
-	}
+	std::shared_ptr<GravityEvent> gravityEvent = std::make_shared<GravityEvent>();
+	CurrentDispatcher->Dispatch(gravityEvent);
+}
+
+void PhysicEngine::SetDispatcher(EventDispatcher* Dispatcher)
+{
+	CurrentDispatcher = Dispatcher;
 }

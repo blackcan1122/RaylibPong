@@ -12,7 +12,7 @@ void BaseCircle::Tick(float Deltatime)
 
 void BaseCircle::SetIsControllable(bool Status)
 {
-	IsControllable = Status;
+	this->IsControllable = Status;
 }
 
 void BaseCircle::SetIsBoundByScreen(bool Status)
@@ -22,12 +22,26 @@ void BaseCircle::SetIsBoundByScreen(bool Status)
 
 void BaseCircle::SetUseGravity(bool Status)
 {
-	this->GravitiyAffects = Status;
+	this->GravityAffects = Status;
 }
 
 void BaseCircle::SetPosition(Vector2 NewPos)
 {
 	Position = NewPos;
+}
+
+Vector2 BaseCircle::CalculatePosition(Vector2& CurrentPos, Vector2& Velocity, float& Dampening, Vector2& Accel, const float Deltatime)
+{
+	Vector2 ReturnArray;
+	ReturnArray = Vector2Add(Velocity, Accel);
+
+	ReturnArray.x *= Dampening;
+	ReturnArray.y *= Dampening;
+
+	ReturnArray = Vector2Add(Position, Vector2Scale(Velocity,Deltatime));
+
+	return ReturnArray;
+
 }
 
 bool BaseCircle::GetGravityAffected()
@@ -160,6 +174,17 @@ void BaseCircle::OnCollision(std::shared_ptr<CollisionEvent> event)
 		//std::cout << "Collision at: " << Intersection.x << ", " << Intersection.y << std::endl;
 		//std::cout << "New Position: " << Position.x << " , " << Position.y << std::endl;
 	}
+}
+
+void BaseCircle::CalculateGravity(std::shared_ptr<GravityEvent> event)
+{
+	float Gravity = event->Gravity;
+	Vector2 Velocity = { 0,0 };
+
+	Velocity.y += Gravity;
+	
+
+
 }
 
 Vector2 BaseCircle::GetNormalizedVelocity()

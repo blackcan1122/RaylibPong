@@ -5,6 +5,7 @@
 #include "raymath.h"
 #include "Helper.hpp"
 #include "CollisionEvent.hpp"
+#include "GravityEvent.hpp"
 class BaseCircle : public Tickable
 {
 public:
@@ -37,7 +38,7 @@ public:
 	*
 	*
 	* bool IsBoundByScreen;
-	* bool GravitiyAffects;
+	* bool GravityAffects;
 	* Vector2 Position;
 	* Color FColor;
 	* bool IsControllable;
@@ -56,6 +57,7 @@ public:
 	void SetUseGravity(bool Status) override;
 	void SetPosition(Vector2 NewPos) override;
 
+	virtual Vector2 CalculatePosition(Vector2& CurrentPos, Vector2& Velocity, float& Dampening, Vector2& Accel,const float Deltatime) override;
 	bool GetGravityAffected() override;
 
 	/*
@@ -79,6 +81,8 @@ public:
 
 	// Collision Function Event
 	void OnCollision(std::shared_ptr<CollisionEvent> event);
+	void CalculateGravity(std::shared_ptr<GravityEvent> event);
+
 	
 
 
@@ -87,7 +91,7 @@ public:
 
 private:
 
-	bool GravitiyAffects;
+	bool GravityAffects;
 	float Radius = 15.f;
 	Vector2 Velocity = { 0,0 };
 	float Accel = 0;
