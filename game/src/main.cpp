@@ -55,6 +55,7 @@ int main()
     std::shared_ptr<BaseCircle> MyCircle = std::make_shared<BaseCircle>();
 
     std::vector<std::shared_ptr<BaseRectangle>> RuntimeRectangles;
+    std::vector<std::shared_ptr<BaseCircle>> RuntimeCircles;
 
     // Creating PhysicEngineObject
     PhysicEngine PhysicEngineObj;
@@ -97,20 +98,35 @@ int main()
     // Main game loop
     while (!WindowShouldClose()) 
     {
-        
-        if (IsKeyPressed(KEY_TAB))
+        for (auto& Object1 : RuntimeCircles)
         {
-            RuntimeRectangles.push_back(std::make_shared<BaseRectangle>());
-            RuntimeRectangles[RuntimeRectangles.size() - 1]->SetIsControllable(false);
-            RuntimeRectangles[RuntimeRectangles.size() - 1]->SetUseGravity(true);
+            for (auto& Object2 : RuntimeCircles)
+            {
+                if (Object1 == Object2) { break; }
+                if (CheckCollisionCircles(Object1->GetCenter(), Object1->GetRadius(), Object2->GetCenter(), Object2->GetRadius()))
+                {
+                    Object1->CalculateCollision(Object2);
+                }
+            }
+        }
+        if (IsKeyPressed(KEY_TAB))
+        {            
+            for (int i = 0; i < 10; i++)
+            {
+                RuntimeCircles.push_back(std::make_shared<BaseCircle>());
+                RuntimeCircles[RuntimeCircles.size() - 1]->SetIsControllable(false);
+                RuntimeCircles[RuntimeCircles.size() - 1]->SetUseGravity(true);
+                RuntimeCircles[RuntimeCircles.size() - 1]->SetIsBoundByScreen(true);
+                RuntimeCircles[RuntimeCircles.size() - 1]->SetPosition(GetMousePosition());
 
-            PhysicEngineObj.CollectAllObjectsForGravity();
+                PhysicEngineObj.CollectAllObjectsForGravity();
+            }
         }
         if (IsKeyPressedRepeat(KEY_D))
         {
-            if (RuntimeRectangles.size() > 1)
+            if (RuntimeCircles.size() > 1)
             {
-                RuntimeRectangles.pop_back();
+                RuntimeCircles.pop_back();
             }
             PhysicEngineObj.CollectAllObjectsForGravity();
         }

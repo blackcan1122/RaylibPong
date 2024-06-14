@@ -71,6 +71,7 @@ public:
 	void UseControllTransform(float Deltatime);
 	void DrawCircleShape();
 	Vector2 CalculateForwardVector();
+	void CalculateCollision(std::shared_ptr<Tickable> CollisionObject);
 
 	// Setter Functions specific for Rectangles
 	void SetRadius(float NewRadius);

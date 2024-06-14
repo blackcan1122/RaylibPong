@@ -164,8 +164,8 @@ void BaseRectangle::OnCollision(std::shared_ptr<CollisionEvent> event)
 		// Move the rectangle to the collision point
 		IntersectionDim = 
 		{ 
-			(Intersection.width) * (std::abs(Vector2Length(this->Velocity)) / 100),
-			(Intersection.height) * (std::abs(Vector2Length(this->Velocity)) / 100)
+			(Intersection.width+2) * (std::abs(Vector2Length(this->Velocity)) / 100),
+			(Intersection.height+2) * (std::abs(Vector2Length(this->Velocity)) / 100)
 		};
 
 		Vector2 OffsettedPos = (Vector2Add(this->GetPosition(), Vector2Multiply(CollisionNormal, IntersectionDim)));

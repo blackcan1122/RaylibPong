@@ -68,7 +68,6 @@ void BaseCircle::CalculateGravity(float Gravity, float Deltatime)
 		Velocity = ReflectVector;
 	}
 
-	std::cout << Vector2Length(Velocity) << std::endl;
 	Velocity.y += Gravity;
 	Velocity.y *= Dampening;
 
@@ -178,6 +177,40 @@ Vector2 BaseCircle::CalculateForwardVector()
 	ForwardVector = Vector2Add(ForwardVector, OffsettedPos);
 
 	return ForwardVector;
+}
+
+void BaseCircle::CalculateCollision(std::shared_ptr<Tickable> CollisionObject)
+{
+	if (!CollisionObject)
+	{
+		std::cout << "Collision Object is Nullptr" << std::endl;
+		return;
+	}
+	if (!std::dynamic_pointer_cast<BaseCircle>(CollisionObject))
+	{
+		std::cout << "Collision Object is not from Class BaseCircle" << std::endl;
+		return;
+	}
+
+	std::shared_ptr<BaseCircle> CollObject = std::dynamic_pointer_cast<BaseCircle>(CollisionObject);
+
+	float Distance = (this->GetRadius() + CollObject->GetRadius());
+	Vector2 DirectionToOtherObject = (Vector2Subtract(this->GetPosition(), CollObject->GetPosition()));
+	Vector2 DirNormalized = Vector2Normalize(DirectionToOtherObject);
+	float DirMagnitude = Vector2Length(DirectionToOtherObject);
+	DirNormalized = Vector2Invert(DirNormalized);
+
+	Vector2 NormalizedVel = Vector2Normalize(Velocity);
+	float MagnitudeVel = Vector2Length(Velocity);
+	Vector2 NewVel = Vector2Add(NormalizedVel, DirNormalized);
+	NewVel = Vector2Scale(NewVel, MagnitudeVel/2);
+	this->Velocity = NewVel;
+
+	Vector2 VelForOther = Vector2Invert(NewVel);
+	VelForOther = Vector2Scale(VelForOther, 10);
+	CollObject->Velocity = VelForOther;
+
+
 }
 
 Vector2 BaseCircle::GetCenter()
