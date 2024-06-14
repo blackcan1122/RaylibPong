@@ -99,9 +99,10 @@ int main()
     while (!WindowShouldClose()) 
     {
         float DeltaTime = GetFrameTime();
-        TickAll(DeltaTime);
         //Refresh Window 
         BeginDrawing();
+        ClearBackground(RAYWHITE);
+        TickAll(DeltaTime);
         for (auto& Object1 : RuntimeCircles)
         {
             for (auto& Object2 : RuntimeCircles)
@@ -161,7 +162,7 @@ int main()
 
 
 
-        ClearBackground(RAYWHITE);
+
         EndDrawing();
     }
 
