@@ -13,6 +13,7 @@ public:
     virtual void Tick(float deltaTime) = 0;  // Pure virtual method
     virtual void SetPosition(Vector2 NewPos) = 0;
     virtual void SetIsControllable(bool Status) = 0;
+    virtual void CalculateGravity(float Gravity, float Deltatime) = 0;
 
 
 

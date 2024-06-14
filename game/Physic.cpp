@@ -20,6 +20,11 @@ void PhysicEngine::SetPosition(Vector2 NewPos)
 	return;
 }
 
+void PhysicEngine::CalculateGravity(float Gravity, float Deltatime)
+{
+}
+
+
 void PhysicEngine::CollectAllObjectsForGravity()
 {
 	GravityAffected.clear();
@@ -46,12 +51,10 @@ void PhysicEngine::CollectAllObjectsForGravity()
 
 void PhysicEngine::ApplyGravity(float Deltatime)
 {
-	std::shared_ptr<GravityEvent> gravityEvent = std::make_shared<GravityEvent>();
-	gravityEvent->Gravity = 9.87;
-	CurrentDispatcher->Dispatch(gravityEvent);
-}
+	for (auto& GravityObjects : GravityAffected)
+	{
+		GravityObjects->CalculateGravity(Gravity.y, Deltatime);
+	}
 
-void PhysicEngine::SetDispatcher(EventDispatcher* Dispatcher)
-{
-	CurrentDispatcher = Dispatcher;
+	
 }

@@ -56,9 +56,10 @@ public:
 	void SetIsBoundByScreen(bool Status) override;
 	void SetUseGravity(bool Status) override;
 	void SetPosition(Vector2 NewPos) override;
-
 	virtual Vector2 CalculatePosition(Vector2& CurrentPos, Vector2& Velocity, float& Dampening, Vector2& Accel,const float Deltatime) override;
 	bool GetGravityAffected() override;
+	virtual void CalculateGravity(float Gravity, float Deltatime) override;
+
 
 	/*
 	* *******************************
@@ -66,6 +67,7 @@ public:
 	* *******************************
 	*/
 	
+	void CalculateNewPos(float Deltatime);
 	void UseControllTransform(float Deltatime);
 	void DrawCircleShape();
 	Vector2 CalculateForwardVector();
@@ -81,7 +83,6 @@ public:
 
 	// Collision Function Event
 	void OnCollision(std::shared_ptr<CollisionEvent> event);
-	void CalculateGravity(std::shared_ptr<GravityEvent> event);
 
 	
 

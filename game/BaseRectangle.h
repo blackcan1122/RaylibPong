@@ -5,6 +5,7 @@
 #include "raymath.h"
 #include "Helper.hpp"
 #include "CollisionEvent.hpp"
+#include "GravityEvent.hpp"
 class BaseRectangle : public Tickable
 {
 public:
@@ -57,6 +58,7 @@ public:
 	bool GetGravityAffected() override;
 	void SetPosition(Vector2 NewPos) override;
 	virtual void SetUseGravity(bool Status) override;
+	virtual void CalculateGravity(float Gravity, float Deltatime) override;
 
 	/*
 	* *******************************

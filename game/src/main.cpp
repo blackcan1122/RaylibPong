@@ -71,38 +71,13 @@ int main()
             }
         });
 
-    Dispatcher.AddListener("DispatcherEvent", [&PhysicEngineObj,&Dispatcher](std::shared_ptr<Event> event)
-        {
-            auto Test = std::dynamic_pointer_cast<DispatcherEvent>(event);
-            if (Test)
-            {
-                PhysicEngineObj.SetDispatcher(&Dispatcher);
-            }
-        });
-
-    Dispatcher.AddListener("GravityEvent", [&MyCircle](std::shared_ptr<Event> event)
-        {
-            auto Test = std::dynamic_pointer_cast<GravityEvent>(event);
-            if (Test)
-            {
-                MyCircle->CalculateGravity(Test);
-            }
-        });
-
-
-    std::shared_ptr<DispatcherEvent> dispatcherEvent = std::make_shared<DispatcherEvent>();
-    Dispatcher.Dispatch(dispatcherEvent);
-
-    std::cout << PhysicEngineObj.CurrentDispatcher << std::endl;
-    std::cout << "Dispatcher Event was successfully set" << std::endl;
-
     // Initializing Start Position
     Vector2 Pos1 = { 0,0 };
     Vector2 Pos2 = { 200,200 };
     MyCircle->SetPosition(Vector2{ 0,0 });
     // Init Start Parameter of Objects
     MyRectangle->SetPosition(Pos1);
-    MyRectangle->SetUseGravity(false);
+    MyRectangle->SetUseGravity(true);
     MyRectangle2->SetPosition(Pos2);
     MyRectangle2->SetUseGravity(false);
     MyCircle->SetUseGravity(true);
@@ -123,11 +98,12 @@ int main()
     while (!WindowShouldClose()) 
     {
         
-        if (IsKeyPressedRepeat(KEY_TAB))
+        if (IsKeyPressed(KEY_TAB))
         {
             RuntimeRectangles.push_back(std::make_shared<BaseRectangle>());
             RuntimeRectangles[RuntimeRectangles.size() - 1]->SetIsControllable(false);
             RuntimeRectangles[RuntimeRectangles.size() - 1]->SetUseGravity(true);
+
             PhysicEngineObj.CollectAllObjectsForGravity();
         }
         if (IsKeyPressedRepeat(KEY_D))

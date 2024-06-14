@@ -35,6 +35,20 @@ void BaseRectangle::SetUseGravity(bool Status)
 	GravityAffects = Status;
 }
 
+void BaseRectangle::CalculateGravity(float Gravity, float Deltatime)
+{
+	Velocity.y += Gravity;
+
+	if (this->GetPosition().y > GetScreenHeight() && IsBoundByScreen)
+	{
+		Vector2 Pos = this->GetPosition();
+		Pos.y -= (Pos.y - GetScreenHeight());
+		SetPosition(Pos);
+		Vector2 Helper = { 0,-1 };
+		Velocity = Vector2Reflect(Velocity, Helper);
+	}
+}
+
 
 void BaseRectangle::UseControllTransform(float Deltatime)
 {
@@ -66,7 +80,7 @@ void BaseRectangle::UseControllTransform(float Deltatime)
 	Position.x += Velocity.x * Deltatime;
 	Position.y += Velocity.y * Deltatime;
 
-	// Check if velocity is close to zero and set it to zero if so
+	//Check if velocity is close to zero and set it to zero if so
 	if (std::abs(Velocity.x) < 0.02)
 	{
 		Velocity.x = 0;
@@ -146,10 +160,13 @@ void BaseRectangle::OnCollision(std::shared_ptr<CollisionEvent> event)
 		}
 
 
-
+		Vector2 IntersectionDim;
 		// Move the rectangle to the collision point
-		Vector2 IntersectionDim = { (Intersection.width + 2) * (std::abs(Vector2Length(this->Velocity))/100),
-									(Intersection.height + 2) * (std::abs(Vector2Length(this->Velocity)) / 100) };
+		IntersectionDim = 
+		{ 
+			(Intersection.width) * (std::abs(Vector2Length(this->Velocity)) / 100),
+			(Intersection.height) * (std::abs(Vector2Length(this->Velocity)) / 100)
+		};
 
 		Vector2 OffsettedPos = (Vector2Add(this->GetPosition(), Vector2Multiply(CollisionNormal, IntersectionDim)));
 		this->SetPosition(OffsettedPos);
@@ -157,11 +174,10 @@ void BaseRectangle::OnCollision(std::shared_ptr<CollisionEvent> event)
 		// Calculate the reflection vector
 		Vector2 NormalizedVel = this->GetNormalizedVelocity();
 		float MagnitudeVel = this->GetMagnitudeVelocity();
-		Vector2 reflection = Vector2Subtract(NormalizedVel, Vector2Scale(CollisionNormal, 2 * Vector2DotProduct(NormalizedVel, CollisionNormal)));
-		reflection = Vector2Scale(reflection, MagnitudeVel);
+		Vector2 Reflection = Vector2Reflect(Velocity, CollisionNormal);
 
-		//// Update velocity
-		this->Velocity = reflection;
+		// Update velocity
+		this->Velocity = Reflection;
 		
 
 

@@ -60,6 +60,7 @@ public:
 	void SetIsControllable(bool Status) override;
 	bool GetGravityAffected() override;
 	void SetPosition(Vector2 NewPos) override;
+	virtual void CalculateGravity(float Gravity, float Deltatime) override;
 
 /*
 * ****************************
@@ -68,7 +69,6 @@ public:
 */
 	void CollectAllObjectsForGravity();
 	void ApplyGravity(float Deltatime);
-	void SetDispatcher(EventDispatcher* Dispatcher);
 
 
 /*
@@ -78,6 +78,4 @@ public:
 */
 	Vector2 Gravity = { 0,9.82 };
 	std::vector<Tickable*> GravityAffected;
-
-	EventDispatcher* CurrentDispatcher;
 };

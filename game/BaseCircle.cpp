@@ -8,6 +8,10 @@ void BaseCircle::Tick(float Deltatime)
 	{
 		UseControllTransform(Deltatime);
 	}
+	else
+	{
+		CalculateNewPos(Deltatime);
+	}
 }
 
 void BaseCircle::SetIsControllable(bool Status)
@@ -50,6 +54,37 @@ bool BaseCircle::GetGravityAffected()
 	return GravityAffects;
 }
 
+void BaseCircle::CalculateGravity(float Gravity, float Deltatime)
+{
+	if ((this->GetPosition().y + Radius) > GetScreenHeight() && IsBoundByScreen)
+	{
+		Vector2 Pos = this->GetPosition();
+		Pos.y -= (Pos.y - GetScreenHeight() + Radius);
+		SetPosition(Pos);
+		Vector2 Helper = { 0,-1 };
+		Vector2 ReflectVector;
+		ReflectVector = (Vector2Reflect(Velocity, Helper));
+		ReflectVector = Vector2Scale(ReflectVector, 0.8);
+		Velocity = ReflectVector;
+	}
+
+	std::cout << Vector2Length(Velocity) << std::endl;
+	Velocity.y += Gravity;
+	Velocity.y *= Dampening;
+
+
+	CalculateNewPos(Deltatime);
+}
+
+
+void BaseCircle::CalculateNewPos(float Deltatime)
+{
+	Vector2 NewPos = GetPosition();
+	NewPos.x += Velocity.x * Deltatime;
+	NewPos.y += Velocity.y * Deltatime;
+
+	SetPosition(NewPos);
+}
 
 void BaseCircle::UseControllTransform(float Deltatime)
 {
@@ -116,87 +151,8 @@ void BaseCircle::OnCollision(std::shared_ptr<CollisionEvent> event)
 {
 	if (event)
 	{
-		//if (event->Rect1 == nullptr && event->Rect2 == nullptr)
-		//{
-		//	std::cout << "Rects are nullptr" << std::endl;
-		//	return;
-		//}
-
-		//std::shared_ptr<BaseCircle> Rect1 = std::dynamic_pointer_cast<BaseCircle>(event->Rect1);
-		//std::shared_ptr<BaseCircle> Rect2 = std::dynamic_pointer_cast<BaseCircle>(event->Rect2);
-
-		//// Find intersection rectangle
-		//Rectangle Intersection = GetCollisionRec(Rect1->GetBBox(), Rect2->GetBBox());
-		//DrawRectangleLinesEx(Intersection, 5, BLUE);
-		//// Calculate the collision normal
-		//Vector2 CollisionNormal;
-
-		//if (Intersection.width < Intersection.height) 
-		//{
-		//	if (Rect1->GetPosition().x < Rect2->GetPosition().x) {
-		//		CollisionNormal = { -1, 0 }; // Left side
-		//	}
-		//	else 
-		//	{
-		//		CollisionNormal = { 1, 0 }; // Right side
-		//	}
-		//}
-		//else
-		//{
-		//	if (Rect1->GetPosition().y < Rect2->GetPosition().y) 
-		//	{
-		//		CollisionNormal = { 0, -1 }; // Top side
-		//	}
-		//	else 
-		//	{
-		//		CollisionNormal = { 0, 1 }; // Bottom side
-		//	}
-		//}
-
-
-
-		//// Move the rectangle to the collision point
-		//Vector2 IntersectionDim = { (Intersection.width + 10) * 1.5, (Intersection.height + 10) * 1.5 };
-
-		//Vector2 OffsettedPos = (Vector2Add(this->GetPosition(), Vector2Multiply(CollisionNormal, IntersectionDim)));
-		//this->SetPosition(OffsettedPos);
-
-		//// Calculate the reflection vector
-		//Vector2 NormalizedVel = this->GetNormalizedVelocity();
-		//float MagnitudeVel = this->GetMagnitudeVelocity();
-		//Vector2 reflection = Vector2Subtract(NormalizedVel, Vector2Scale(CollisionNormal, 2 * Vector2DotProduct(NormalizedVel, CollisionNormal)));
-		//reflection = Vector2Scale(reflection, MagnitudeVel);
-
-		////// Update velocity
-		//this->Velocity = reflection;
-		//
-
-
-		//std::cout << "Collision at: " << Intersection.x << ", " << Intersection.y << std::endl;
-		//std::cout << "New Position: " << Position.x << " , " << Position.y << std::endl;
+		// Need to be implement for circles
 	}
-}
-
-void BaseCircle::CalculateGravity(std::shared_ptr<GravityEvent> event)
-{
-	float Gravity = event->Gravity;
-
-	Velocity.y += Gravity;
-
-	Velocity.x *= Dampening;
-	Velocity.y *= Dampening;
-
-	SetPosition(Vector2Add(this->GetPosition(), Velocity));
-
-	if (this->GetPosition().y > GetScreenHeight())
-	{
-		Vector2 Pos = this->GetPosition();
-		Pos.y -= (Pos.y - GetScreenHeight());
-		SetPosition(Pos);
-		Vector2 Helper = { 0,-1 };
-		Velocity = Vector2Reflect(Velocity, Helper);
-	}
-	std::cout << this->GetPosition().x << " , " << this->GetPosition().y << std::endl;
 }
 
 Vector2 BaseCircle::GetNormalizedVelocity()
@@ -229,6 +185,7 @@ Vector2 BaseCircle::GetCenter()
 	float Radius = this->GetRadius();
 	Vector2 OffsettedPos = { GetPosition().x + Radius,GetPosition().y + Radius };
 	return OffsettedPos;
+	
 }
 
 
