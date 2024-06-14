@@ -49,7 +49,7 @@ int main()
     InitWindow(screenWidth, screenHeight, "Waterfall Sonar");
 
 
-    SetTargetFPS(60);
+    SetTargetFPS(144);
     std::shared_ptr<BaseRectangle> MyRectangle = std::make_shared<BaseRectangle>();
     std::shared_ptr<BaseRectangle> MyRectangle2 = std::make_shared<BaseRectangle>();
     std::shared_ptr<BaseCircle> MyCircle = std::make_shared<BaseCircle>();
@@ -98,6 +98,10 @@ int main()
     // Main game loop
     while (!WindowShouldClose()) 
     {
+        float DeltaTime = GetFrameTime();
+        TickAll(DeltaTime);
+        //Refresh Window 
+        BeginDrawing();
         for (auto& Object1 : RuntimeCircles)
         {
             for (auto& Object2 : RuntimeCircles)
@@ -111,16 +115,15 @@ int main()
         }
         if (IsKeyPressed(KEY_TAB))
         {            
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 50; i++)
             {
                 RuntimeCircles.push_back(std::make_shared<BaseCircle>());
                 RuntimeCircles[RuntimeCircles.size() - 1]->SetIsControllable(false);
                 RuntimeCircles[RuntimeCircles.size() - 1]->SetUseGravity(true);
                 RuntimeCircles[RuntimeCircles.size() - 1]->SetIsBoundByScreen(true);
                 RuntimeCircles[RuntimeCircles.size() - 1]->SetPosition(GetMousePosition());
-
-                PhysicEngineObj.CollectAllObjectsForGravity();
             }
+            PhysicEngineObj.CollectAllObjectsForGravity();
         }
         if (IsKeyPressedRepeat(KEY_D))
         {
@@ -132,8 +135,7 @@ int main()
         }
 
         DrawFPS(0, 0);
-        float DeltaTime = GetFrameTime();
-        TickAll(DeltaTime);
+
         // Draw Deltatime to Screen
         DrawText(TextFormat("%f", DeltaTime), 200, 200, 16, BLUE);
 
@@ -156,11 +158,10 @@ int main()
         DebugVelVector[1] = MyRectangle->CalculateForwardVector();
         DrawSplineLinear(DebugVelVector, 2, 2, RED);
 
-        //Refresh Window 
-        BeginDrawing();
+
+
+
         ClearBackground(RAYWHITE);
-
-
         EndDrawing();
     }
 

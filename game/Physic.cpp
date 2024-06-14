@@ -41,7 +41,7 @@ void PhysicEngine::CollectAllObjectsForGravity()
 		// Somehow all objects except self reference land here
 		if (Object->GetGravityAffected() == false)
 		{
-			std::cout << Object->GetGravityAffected() << std::endl;
+			//std::cout << Object->GetGravityAffected() << std::endl;
 			//std::cout << "Not Gravity" << std::endl;
 			continue;
 		}
