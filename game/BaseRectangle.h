@@ -78,6 +78,7 @@ public:
 	Vector2 GetDimensions();
 	Vector2 GetNormalizedVelocity();
 	Vector2 GetCenter();
+	Vector2 GetVelocity();
 	Rectangle GetBBox();
 	float GetMagnitudeVelocity();
 

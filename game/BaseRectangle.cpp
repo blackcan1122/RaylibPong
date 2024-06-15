@@ -3,6 +3,7 @@
 #include <math.h>
 #include <cmath>
 #include <algorithm>
+#include "rlgl.h"
 
 void BaseRectangle::Tick(float Deltatime)
 {
@@ -12,8 +13,9 @@ void BaseRectangle::Tick(float Deltatime)
 	{
 		UseControllTransform(Deltatime);
 	}
-
 }
+
+
 
 void BaseRectangle::SetIsControllable(bool Status)
 {
@@ -216,6 +218,11 @@ Vector2 BaseRectangle::GetCenter()
 	Vector2 Dim = this->GetDimensions();
 	Vector2 CenteredVector = { GetPosition().x + (Dim.x / 2),GetPosition().y + (Dim.y / 2) };
 	return CenteredVector;
+}
+
+Vector2 BaseRectangle::GetVelocity()
+{
+	return Velocity;
 }
 
 

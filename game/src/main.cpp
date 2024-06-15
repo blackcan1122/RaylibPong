@@ -38,6 +38,7 @@ For a C++ project simply rename the file to .cpp and run premake
 #include <memory>
 #include <unordered_map>
 #include <vector>
+#include "rlgl.h"
 
 const int screenWidth = 800;
 const int screenHeight = 600;
@@ -52,7 +53,6 @@ int main()
     SetTargetFPS(144);
     std::shared_ptr<BaseRectangle> MyRectangle = std::make_shared<BaseRectangle>();
     std::shared_ptr<BaseRectangle> MyRectangle2 = std::make_shared<BaseRectangle>();
-    std::shared_ptr<BaseCircle> MyCircle = std::make_shared<BaseCircle>();
 
     std::vector<std::shared_ptr<BaseRectangle>> RuntimeRectangles;
     std::vector<std::shared_ptr<BaseCircle>> RuntimeCircles;
@@ -75,17 +75,11 @@ int main()
     // Initializing Start Position
     Vector2 Pos1 = { 0,0 };
     Vector2 Pos2 = { 200,200 };
-    MyCircle->SetPosition(Vector2{ 0,0 });
     // Init Start Parameter of Objects
     MyRectangle->SetPosition(Pos1);
-    MyRectangle->SetUseGravity(true);
+    MyRectangle->SetUseGravity(false);
     MyRectangle2->SetPosition(Pos2);
     MyRectangle2->SetUseGravity(false);
-    MyCircle->SetUseGravity(true);
-    MyCircle->SetIsBoundByScreen(true);
-    MyCircle->SetIsControllable(false);
-    Vector2 PosCircle = { screenWidth / 2,0 };
-    MyCircle->SetPosition(PosCircle);
     MyRectangle->SetIsControllable(true);
 
 
@@ -93,16 +87,54 @@ int main()
     // Init Start FPS
     float FPSTest = 60;
 
-    
+    int AmountOfBalls = 1;
+    bool helper = false;
 
     // Main game loop
     while (!WindowShouldClose()) 
     {
-        float DeltaTime = GetFrameTime();
+
         //Refresh Window 
         BeginDrawing();
-        ClearBackground(RAYWHITE);
+        ClearBackground(LIGHTGRAY);
+
+        // Start Parameter for the Frame:
+        float DeltaTime = GetFrameTime();
         TickAll(DeltaTime);
+        DrawFPS(0, 0);
+        DrawText(TextFormat("%f", DeltaTime), 200, 200, 16, BLUE);
+
+        
+        if (IsKeyPressed(KEY_A))
+        {
+            for (auto& Objects : RuntimeCircles)
+            {
+                if (helper == false)
+                {
+                    Objects->Debugmode = true;
+                    std::cout << "DebugMode On" << std::endl;
+                }
+                else
+                {
+                    Objects->Debugmode = false;
+                    std::cout << "DebugMode Off" << std::endl;
+                }
+
+            }
+            if (helper == false)
+            {
+                helper = true;
+            }
+            else
+            {
+                helper = false;
+            }
+        }
+
+        AmountOfBalls += GetMouseWheelMove();
+        DrawText(TextFormat("Amount of Spawned Balls Will be: %d", AmountOfBalls), 300, 200, 16, GREEN);
+
+        // Collision Detection for All Circles
         for (auto& Object1 : RuntimeCircles)
         {
             for (auto& Object2 : RuntimeCircles)
@@ -114,31 +146,40 @@ int main()
                 }
             }
         }
+
+        // Collision Detection for Rectangle to Circle
+
+        for (const auto& Circle : RuntimeCircles)
+        {
+            if (CheckCollisionCircleRec(Circle->GetCenter(), Circle->GetRadius(), MyRectangle->GetBBox()))
+            {
+                Circle->CalculateCollision(MyRectangle);
+            }
+        }
         if (IsKeyPressed(KEY_TAB))
-        {            
-            for (int i = 0; i < 50; i++)
+        {    
+            for (int i = 0; i < AmountOfBalls; i++)
             {
                 RuntimeCircles.push_back(std::make_shared<BaseCircle>());
                 RuntimeCircles[RuntimeCircles.size() - 1]->SetIsControllable(false);
                 RuntimeCircles[RuntimeCircles.size() - 1]->SetUseGravity(true);
                 RuntimeCircles[RuntimeCircles.size() - 1]->SetIsBoundByScreen(true);
                 RuntimeCircles[RuntimeCircles.size() - 1]->SetPosition(GetMousePosition());
+                PhysicEngineObj.CollectAllObjectsForGravity();
             }
-            PhysicEngineObj.CollectAllObjectsForGravity();
         }
-        if (IsKeyPressedRepeat(KEY_D))
+        if (IsKeyPressed(KEY_D))
         {
-            if (RuntimeCircles.size() > 1)
+            for (int i = 0; i < AmountOfBalls; i++)
             {
-                RuntimeCircles.pop_back();
+                if (RuntimeCircles.size() > 1)
+                {
+                    RuntimeCircles.pop_back();
+                }
+                PhysicEngineObj.CollectAllObjectsForGravity();
             }
-            PhysicEngineObj.CollectAllObjectsForGravity();
         }
 
-        DrawFPS(0, 0);
-
-        // Draw Deltatime to Screen
-        DrawText(TextFormat("%f", DeltaTime), 200, 200, 16, BLUE);
 
         // Check for Collision for CollisionEvent Dispatch and filling in data
         if(CheckCollisionRecs(MyRectangle->GetBBox(), MyRectangle2->GetBBox()))

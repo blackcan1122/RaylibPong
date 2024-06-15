@@ -51,3 +51,15 @@ Vector2 Helper::Vector2MultiplyFloat(Vector2& Vector, float FloatValue)
 	return ReturnVector;
 }
 
+bool Helper::Vector2IsInRange(Vector2& Vector, Vector2 Min, Vector2 Max)
+{
+	if (Vector.x >= Min.x && Vector.x <= Max.x)
+	{
+		if (Vector.y >= Min.y && Vector.y <= Max.y)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+

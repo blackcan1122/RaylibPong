@@ -6,6 +6,7 @@
 #include "Helper.hpp"
 #include "CollisionEvent.hpp"
 #include "GravityEvent.hpp"
+#include "BaseRectangle.h"
 class BaseCircle : public Tickable
 {
 public:
@@ -86,11 +87,13 @@ public:
 	void OnCollision(std::shared_ptr<CollisionEvent> event);
 
 	
+	// Debug Functions
+	void DrawDebugVelocity();
 
 
 
-
-
+public:
+	bool Debugmode = false;
 private:
 
 	bool GravityAffects;
@@ -98,6 +101,7 @@ private:
 	Vector2 Velocity = { 0,0 };
 	float Accel = 0;
 	float Dampening = 0.97;
+
 
 };
 

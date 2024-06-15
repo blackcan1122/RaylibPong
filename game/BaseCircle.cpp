@@ -12,6 +12,10 @@ void BaseCircle::Tick(float Deltatime)
 	{
 		CalculateNewPos(Deltatime);
 	}
+	if (Debugmode == true)
+	{
+		DrawDebugVelocity();
+	}
 }
 
 void BaseCircle::SetIsControllable(bool Status)
@@ -101,6 +105,9 @@ void BaseCircle::CalculateGravity(float Gravity, float Deltatime)
 void BaseCircle::CalculateNewPos(float Deltatime)
 {
 	Vector2 NewPos = GetPosition();
+	if (std::abs(Velocity.x) < 0.5) { Velocity.x = 0; };
+	if (std::abs(Velocity.y) < 0.5) { Velocity.x = 0; };
+
 	NewPos.x += Velocity.x * Deltatime;
 	NewPos.y += Velocity.y * Deltatime;
 
@@ -176,6 +183,14 @@ void BaseCircle::OnCollision(std::shared_ptr<CollisionEvent> event)
 	}
 }
 
+void BaseCircle::DrawDebugVelocity()
+{
+	Vector2 DebugVelVector[2];
+	DebugVelVector[0] = this->GetCenter();
+	DebugVelVector[1] = this->CalculateForwardVector();
+	DrawSplineLinear(DebugVelVector, 2, 2, RED);
+}
+
 Vector2 BaseCircle::GetNormalizedVelocity()
 {
 	Vector2 NormalizedVector = Vector2Normalize(Velocity);
@@ -193,10 +208,8 @@ Vector2 BaseCircle::CalculateForwardVector()
 	Vector2 NormalizedVelocity = GetNormalizedVelocity();
 	Vector2 ForwardVector = Vector2Scale(NormalizedVelocity, this->GetMagnitudeVelocity() * 0.25f);
 
-	float Radius = this->GetRadius();
-	Vector2 OffsettedPos = { GetPosition().x + Radius,GetPosition().y + Radius };
 
-	ForwardVector = Vector2Add(ForwardVector, OffsettedPos);
+	ForwardVector = Vector2Add(ForwardVector, this->GetCenter());
 
 	return ForwardVector;
 }
@@ -208,45 +221,76 @@ void BaseCircle::CalculateCollision(std::shared_ptr<Tickable> CollisionObject)
 		std::cout << "Collision Object is Nullptr" << std::endl;
 		return;
 	}
-	if (!std::dynamic_pointer_cast<BaseCircle>(CollisionObject))
+
+	// Case when our Collision Object is derived from BaseRectangle
+	if (std::dynamic_pointer_cast<BaseRectangle>(CollisionObject))
 	{
-		std::cout << "Collision Object is not from Class BaseCircle" << std::endl;
-		return;
+		std::shared_ptr<BaseRectangle> CollObject = std::dynamic_pointer_cast<BaseRectangle>(CollisionObject);
+		//Getting Vector To Collision Object
+		Vector2 DirectionToOtherObject = Vector2Subtract(this->GetCenter(), CollObject->GetCenter());
+		float Distance = Vector2Length(DirectionToOtherObject);
+
+		Vector2 DirNormalized = Vector2Normalize(DirectionToOtherObject);
+		Vector2 RelativeVelocity = Vector2Subtract(this->Velocity, CollObject->GetVelocity());
+
+		// Calculate the velocity component along the direction of collision
+		float VelAlongCollision = Vector2DotProduct(RelativeVelocity, DirNormalized);
+
+		// Calculate new Position Outside of Rectangle
+
+		Vector2 PushAway = Vector2Scale(DirNormalized, Distance/10);
+		this->Position = Vector2Add(this->Position, PushAway);
+		Vector2 Helper = Vector2Add(DirNormalized, CollObject->GetCenter());
+		DrawLine(this->GetCenter().x, this->GetCenter().y, Helper.x, Helper.y, GREEN);
+
+
+		// Apply collision response if circles are moving towards each other
+		if (VelAlongCollision < 0)
+		{
+			Vector2 Impulse = Vector2Scale(DirNormalized, VelAlongCollision);
+
+			this->Velocity = Vector2Subtract(this->Velocity, Impulse);
+
+		}
+	}
+	// Case when our Collision Object is derived from BaseCircle
+	if (std::dynamic_pointer_cast<BaseCircle>(CollisionObject))
+	{
+		std::shared_ptr<BaseCircle> CollObject = std::dynamic_pointer_cast<BaseCircle>(CollisionObject);
+
+		Vector2 DirectionToOtherObject = Vector2Subtract(this->GetCenter(), CollObject->GetCenter());
+		float Distance = Vector2Length(DirectionToOtherObject);
+
+		Vector2 DirNormalized = Vector2Normalize(DirectionToOtherObject);
+		Vector2 RelativeVelocity = Vector2Subtract(this->Velocity, CollObject->Velocity);
+
+		// Calculate the velocity component along the direction of collision
+		float VelAlongCollision = Vector2DotProduct(RelativeVelocity, DirNormalized);
+
+		// Apply positional correction to separate the circles
+		float RadiusSum = this->GetRadius() + CollObject->GetRadius();
+		float Overlap = RadiusSum - Distance;
+		Vector2 Correction = Vector2Scale(DirNormalized, Overlap / 2.0f);
+		this->SetPosition(Vector2Add(this->GetPosition(), Correction));
+		CollObject->SetPosition(Vector2Subtract(CollObject->GetPosition(), Correction));
+
+		// Apply collision response if circles are moving towards each other
+		if (VelAlongCollision < 0)
+		{
+			Vector2 Impulse = Vector2Scale(DirNormalized, VelAlongCollision);
+
+			this->Velocity = Vector2Subtract(this->Velocity, Impulse);
+			CollObject->Velocity = Vector2Add(CollObject->Velocity, Impulse);
+
+		}
 	}
 
-	std::shared_ptr<BaseCircle> CollObject = std::dynamic_pointer_cast<BaseCircle>(CollisionObject);
-
-	Vector2 DirectionToOtherObject = Vector2Subtract(this->GetPosition(), CollObject->GetPosition());
-	float Distance = Vector2Length(DirectionToOtherObject);
-
-	Vector2 DirNormalized = Vector2Normalize(DirectionToOtherObject);
-	Vector2 RelativeVelocity = Vector2Subtract(this->Velocity, CollObject->Velocity);
-
-	// Calculate the velocity component along the direction of collision
-	float VelAlongCollision = Vector2DotProduct(RelativeVelocity, DirNormalized);
-
-	// Apply positional correction to separate the circles
-	float RadiusSum = this->GetRadius() + CollObject->GetRadius();
-	float Overlap = RadiusSum - Distance;
-	Vector2 Correction = Vector2Scale(DirNormalized, Overlap / 2.0f);
-	this->SetPosition(Vector2Add(this->GetPosition(), Correction));
-	CollObject->SetPosition(Vector2Subtract(CollObject->GetPosition(), Correction));
-
-	// Apply collision response if circles are moving towards each other
-	if (VelAlongCollision < 0)
-	{
-		Vector2 Impulse = Vector2Scale(DirNormalized, VelAlongCollision);
-
-		this->Velocity = Vector2Subtract(this->Velocity, Impulse);
-		CollObject->Velocity = Vector2Add(CollObject->Velocity, Impulse);
-
-	}
 }
 
 Vector2 BaseCircle::GetCenter()
 {
 	float Radius = this->GetRadius();
-	Vector2 OffsettedPos = { GetPosition().x + Radius,GetPosition().y + Radius };
+	Vector2 OffsettedPos = { GetPosition().x , GetPosition().y  };
 	return OffsettedPos;
 	
 }
