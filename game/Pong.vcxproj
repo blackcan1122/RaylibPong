@@ -100,6 +100,7 @@
     <IntDir>obj\x64\Debug\</IntDir>
     <TargetName>Pong</TargetName>
     <TargetExt>.exe</TargetExt>
+    <IncludePath>$(ProjectDir)src\public;$(ProjectDir)src\private;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -266,20 +267,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\src\BaseCircle.cpp" />
-    <ClCompile Include="src\src\CollisionEvent.cpp" />
-    <ClCompile Include="src\src\DispatcherEvent.cpp" />
-    <ClCompile Include="src\Base\src\EventDispatcher.cpp" />
-    <ClCompile Include="src\Base\src\GameInstance.cpp" />
-    <ClCompile Include="src\Base\src\GameMode.cpp" />
-    <ClCompile Include="src\src\GravityEvent.cpp" />
-    <ClCompile Include="src\Base\src\Helper.cpp" />
-    <ClCompile Include="src\src\BaseRectangle.cpp" />
-    <ClCompile Include="src\Base\src\Physic.cpp" />
-    <ClCompile Include="src\src\main.cpp" />
-    <ClCompile Include="src\Base\src\StateMachine.cpp" />
-    <ClCompile Include="src\Base\src\Tickable.cpp" />
-    <ClCompile Include="src\Base\src\TickableFactory.cpp" />
+    <ClCompile Include="src\private\BaseCircle.cpp" />
+    <ClCompile Include="src\private\CollisionEvent.cpp" />
+    <ClCompile Include="src\private\DispatcherEvent.cpp" />
+    <ClCompile Include="src\private\EventDispatcher.cpp" />
+    <ClCompile Include="src\private\GameInstance.cpp" />
+    <ClCompile Include="src\private\GameMode.cpp" />
+    <ClCompile Include="src\private\GravityEvent.cpp" />
+    <ClCompile Include="src\private\Helper.cpp" />
+    <ClCompile Include="src\private\BaseRectangle.cpp" />
+    <ClCompile Include="src\private\Physic.cpp" />
+    <ClCompile Include="src\private\main.cpp" />
+    <ClCompile Include="src\private\StateMachine.cpp" />
+    <ClCompile Include="src\private\Tickable.cpp" />
+    <ClCompile Include="src\private\TickableFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\raylib-master\raylib.vcxproj">
@@ -287,22 +288,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Header\BaseCircle.h" />
-    <ClInclude Include="src\Header\CollisionEvent.hpp" />
+    <ClInclude Include="src\public\BaseCircle.h" />
+    <ClInclude Include="src\public\CollisionEvent.hpp" />
     <ClInclude Include="core\Core.h" />
-    <ClInclude Include="src\Header\DispatcherEvent.hpp" />
-    <ClInclude Include="src\Base\Header\Event.hpp" />
-    <ClInclude Include="src\Base\Header\EventDispatcher.hpp" />
-    <ClInclude Include="src\Base\Header\GameInstance.h" />
-    <ClInclude Include="src\Base\Header\GameMode.h" />
-    <ClInclude Include="src\Header\GravityEvent.hpp" />
-    <ClInclude Include="src\Base\Header\Helper.hpp" />
-    <ClInclude Include="src\Header\BaseRectangle.h" />
-    <ClInclude Include="src\Base\Header\Physic.hpp" />
-    <ClInclude Include="src\Base\Header\StateMachine.h" />
-    <ClInclude Include="src\Base\Header\Tickable.h" />
-    <ClInclude Include="src\Base\Header\TickableFactory.h" />
-    <ClInclude Include="src\Base\Header\TickAll.h" />
+    <ClInclude Include="src\public\DispatcherEvent.hpp" />
+    <ClInclude Include="src\public\Header\Event.hpp" />
+    <ClInclude Include="src\public\Header\EventDispatcher.hpp" />
+    <ClInclude Include="src\public\Header\GameInstance.h" />
+    <ClInclude Include="src\public\Header\GameMode.h" />
+    <ClInclude Include="src\public\GravityEvent.hpp" />
+    <ClInclude Include="src\public\Header\Helper.hpp" />
+    <ClInclude Include="src\public\BaseRectangle.h" />
+    <ClInclude Include="src\public\Header\Physic.hpp" />
+    <ClInclude Include="src\public\Header\StateMachine.h" />
+    <ClInclude Include="src\public\Header\Tickable.h" />
+    <ClInclude Include="src\public\Header\TickableFactory.h" />
+    <ClInclude Include="src\public\Header\TickAll.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

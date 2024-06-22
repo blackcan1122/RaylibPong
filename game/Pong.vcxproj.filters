@@ -24,97 +24,37 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseRectangle.cpp">
-      <Filter>Source Files\private</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionEvent.cpp">
-      <Filter>Source Files\private\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="EventDispatcher.cpp">
-      <Filter>Source Files\private\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseCircle.cpp">
-      <Filter>Source Files\private</Filter>
-    </ClCompile>
-    <ClCompile Include="Physic.cpp">
-      <Filter>Source Files\private</Filter>
-    </ClCompile>
-    <ClCompile Include="GravityEvent.cpp">
-      <Filter>Source Files\private\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="DispatcherEvent.cpp">
-      <Filter>Source Files\private\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="TickableFactory.cpp">
-      <Filter>Source Files\private\Basics</Filter>
-    </ClCompile>
-    <ClCompile Include="Tickable.cpp">
-      <Filter>Source Files\private\Basics</Filter>
-    </ClCompile>
-    <ClCompile Include="GameMode.cpp">
-      <Filter>Source Files\private\Basics</Filter>
-    </ClCompile>
-    <ClCompile Include="Helper.cpp">
-      <Filter>Source Files\private\Basics</Filter>
-    </ClCompile>
-    <ClCompile Include="GameInstance.cpp">
-      <Filter>Source Files\private\Basics</Filter>
-    </ClCompile>
-    <ClCompile Include="StateMachine.cpp">
-      <Filter>Source Files\private\Basics</Filter>
-    </ClCompile>
+    <ClCompile Include="src\src\BaseCircle.cpp" />
+    <ClCompile Include="src\src\CollisionEvent.cpp" />
+    <ClCompile Include="src\src\DispatcherEvent.cpp" />
+    <ClCompile Include="src\Base\src\EventDispatcher.cpp" />
+    <ClCompile Include="src\Base\src\GameInstance.cpp" />
+    <ClCompile Include="src\Base\src\GameMode.cpp" />
+    <ClCompile Include="src\src\GravityEvent.cpp" />
+    <ClCompile Include="src\Base\src\Helper.cpp" />
+    <ClCompile Include="src\src\BaseRectangle.cpp" />
+    <ClCompile Include="src\Base\src\Physic.cpp" />
+    <ClCompile Include="src\src\main.cpp" />
+    <ClCompile Include="src\Base\src\StateMachine.cpp" />
+    <ClCompile Include="src\Base\src\Tickable.cpp" />
+    <ClCompile Include="src\Base\src\TickableFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TickAll.h">
-      <Filter>Source Files\public</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseRectangle.h">
-      <Filter>Source Files\public</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionEvent.hpp">
-      <Filter>Source Files\public\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Event.hpp">
-      <Filter>Source Files\public\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="EventDispatcher.hpp">
-      <Filter>Source Files\public\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseCircle.h">
-      <Filter>Source Files\public</Filter>
-    </ClInclude>
-    <ClInclude Include="Physic.hpp">
-      <Filter>Source Files\public</Filter>
-    </ClInclude>
-    <ClInclude Include="GravityEvent.hpp">
-      <Filter>Source Files\public\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="DispatcherEvent.hpp">
-      <Filter>Source Files\public\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="TickableFactory.h">
-      <Filter>Source Files\public\Basics</Filter>
-    </ClInclude>
-    <ClInclude Include="Tickable.h">
-      <Filter>Source Files\public\Basics</Filter>
-    </ClInclude>
-    <ClInclude Include="Helper.hpp">
-      <Filter>Source Files\public\Basics</Filter>
-    </ClInclude>
-    <ClInclude Include="GameMode.h">
-      <Filter>Source Files\public\Basics</Filter>
-    </ClInclude>
-    <ClInclude Include="GameInstance.h">
-      <Filter>Source Files\public\Basics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core.h">
-      <Filter>Source Files\public\Basics</Filter>
-    </ClInclude>
-    <ClInclude Include="StateMachine.h">
-      <Filter>Source Files\public\Basics</Filter>
-    </ClInclude>
+    <ClInclude Include="src\Header\BaseCircle.h" />
+    <ClInclude Include="src\Header\CollisionEvent.hpp" />
+    <ClInclude Include="core\Core.h" />
+    <ClInclude Include="src\Header\DispatcherEvent.hpp" />
+    <ClInclude Include="src\Base\Header\Event.hpp" />
+    <ClInclude Include="src\Base\Header\EventDispatcher.hpp" />
+    <ClInclude Include="src\Base\Header\GameInstance.h" />
+    <ClInclude Include="src\Base\Header\GameMode.h" />
+    <ClInclude Include="src\Header\GravityEvent.hpp" />
+    <ClInclude Include="src\Base\Header\Helper.hpp" />
+    <ClInclude Include="src\Header\BaseRectangle.h" />
+    <ClInclude Include="src\Base\Header\Physic.hpp" />
+    <ClInclude Include="src\Base\Header\StateMachine.h" />
+    <ClInclude Include="src\Base\Header\Tickable.h" />
+    <ClInclude Include="src\Base\Header\TickableFactory.h" />
+    <ClInclude Include="src\Base\Header\TickAll.h" />
   </ItemGroup>
 </Project>
