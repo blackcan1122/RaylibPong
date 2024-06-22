@@ -266,17 +266,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseCircle.cpp" />
-    <ClCompile Include="CollisionEvent.cpp" />
-    <ClCompile Include="DispatcherEvent.cpp" />
-    <ClCompile Include="EventDispatcher.cpp" />
-    <ClCompile Include="GravityEvent.cpp" />
-    <ClCompile Include="Helper.cpp" />
-    <ClCompile Include="BaseRectangle.cpp" />
-    <ClCompile Include="Physic.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="Tickable.cpp" />
-    <ClCompile Include="TickableFactory.cpp" />
+    <ClCompile Include="src\src\BaseCircle.cpp" />
+    <ClCompile Include="src\src\CollisionEvent.cpp" />
+    <ClCompile Include="src\src\DispatcherEvent.cpp" />
+    <ClCompile Include="src\Base\src\EventDispatcher.cpp" />
+    <ClCompile Include="src\Base\src\GameInstance.cpp" />
+    <ClCompile Include="src\Base\src\GameMode.cpp" />
+    <ClCompile Include="src\src\GravityEvent.cpp" />
+    <ClCompile Include="src\Base\src\Helper.cpp" />
+    <ClCompile Include="src\src\BaseRectangle.cpp" />
+    <ClCompile Include="src\Base\src\Physic.cpp" />
+    <ClCompile Include="src\src\main.cpp" />
+    <ClCompile Include="src\Base\src\StateMachine.cpp" />
+    <ClCompile Include="src\Base\src\Tickable.cpp" />
+    <ClCompile Include="src\Base\src\TickableFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\raylib-master\raylib.vcxproj">
@@ -284,18 +287,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseCircle.h" />
-    <ClInclude Include="CollisionEvent.hpp" />
-    <ClInclude Include="DispatcherEvent.hpp" />
-    <ClInclude Include="Event.hpp" />
-    <ClInclude Include="EventDispatcher.hpp" />
-    <ClInclude Include="GravityEvent.hpp" />
-    <ClInclude Include="Helper.hpp" />
-    <ClInclude Include="BaseRectangle.h" />
-    <ClInclude Include="Physic.hpp" />
-    <ClInclude Include="Tickable.h" />
-    <ClInclude Include="TickableFactory.h" />
-    <ClInclude Include="TickAll.h" />
+    <ClInclude Include="src\Header\BaseCircle.h" />
+    <ClInclude Include="src\Header\CollisionEvent.hpp" />
+    <ClInclude Include="core\Core.h" />
+    <ClInclude Include="src\Header\DispatcherEvent.hpp" />
+    <ClInclude Include="src\Base\Header\Event.hpp" />
+    <ClInclude Include="src\Base\Header\EventDispatcher.hpp" />
+    <ClInclude Include="src\Base\Header\GameInstance.h" />
+    <ClInclude Include="src\Base\Header\GameMode.h" />
+    <ClInclude Include="src\Header\GravityEvent.hpp" />
+    <ClInclude Include="src\Base\Header\Helper.hpp" />
+    <ClInclude Include="src\Header\BaseRectangle.h" />
+    <ClInclude Include="src\Base\Header\Physic.hpp" />
+    <ClInclude Include="src\Base\Header\StateMachine.h" />
+    <ClInclude Include="src\Base\Header\Tickable.h" />
+    <ClInclude Include="src\Base\Header\TickableFactory.h" />
+    <ClInclude Include="src\Base\Header\TickAll.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

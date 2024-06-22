@@ -16,18 +16,18 @@
     <Filter Include="Source Files\public\Events">
       <UniqueIdentifier>{38a470f5-64ea-4a7b-8faa-3dea855e56f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\private\Basics">
+      <UniqueIdentifier>{0748abbf-2c15-4cba-9db9-59b66bcf7a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\public\Basics">
+      <UniqueIdentifier>{fd9f98d3-a377-4ba9-9f72-f29274420f28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tickable.cpp">
-      <Filter>Source Files\private</Filter>
-    </ClCompile>
     <ClCompile Include="BaseRectangle.cpp">
-      <Filter>Source Files\private</Filter>
-    </ClCompile>
-    <ClCompile Include="TickableFactory.cpp">
       <Filter>Source Files\private</Filter>
     </ClCompile>
     <ClCompile Include="CollisionEvent.cpp">
@@ -35,9 +35,6 @@
     </ClCompile>
     <ClCompile Include="EventDispatcher.cpp">
       <Filter>Source Files\private\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="Helper.cpp">
-      <Filter>Source Files\private</Filter>
     </ClCompile>
     <ClCompile Include="BaseCircle.cpp">
       <Filter>Source Files\private</Filter>
@@ -51,15 +48,27 @@
     <ClCompile Include="DispatcherEvent.cpp">
       <Filter>Source Files\private\Events</Filter>
     </ClCompile>
+    <ClCompile Include="TickableFactory.cpp">
+      <Filter>Source Files\private\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="Tickable.cpp">
+      <Filter>Source Files\private\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMode.cpp">
+      <Filter>Source Files\private\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper.cpp">
+      <Filter>Source Files\private\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="GameInstance.cpp">
+      <Filter>Source Files\private\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine.cpp">
+      <Filter>Source Files\private\Basics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Tickable.h">
-      <Filter>Source Files\public</Filter>
-    </ClInclude>
     <ClInclude Include="TickAll.h">
-      <Filter>Source Files\public</Filter>
-    </ClInclude>
-    <ClInclude Include="TickableFactory.h">
       <Filter>Source Files\public</Filter>
     </ClInclude>
     <ClInclude Include="BaseRectangle.h">
@@ -74,9 +83,6 @@
     <ClInclude Include="EventDispatcher.hpp">
       <Filter>Source Files\public\Events</Filter>
     </ClInclude>
-    <ClInclude Include="Helper.hpp">
-      <Filter>Source Files\public</Filter>
-    </ClInclude>
     <ClInclude Include="BaseCircle.h">
       <Filter>Source Files\public</Filter>
     </ClInclude>
@@ -88,6 +94,27 @@
     </ClInclude>
     <ClInclude Include="DispatcherEvent.hpp">
       <Filter>Source Files\public\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="TickableFactory.h">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="Tickable.h">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper.hpp">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMode.h">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInstance.h">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core.h">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.h">
+      <Filter>Source Files\public\Basics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,9 +1,5 @@
 #pragma once
-#include <vector>
-#include <memory>
-#include <TickableFactory.h>
-#include "Tickable.h"
-#include "raylib.h"
+#include "core/Core.h"
 
 /*
 * 

@@ -1,9 +1,5 @@
 #pragma once
-#include <memory>
-#include <functional>
-#include <unordered_map>
-#include "Event.hpp"
-#include "CollisionEvent.hpp"
+#include "core/Core.h"
 
 class EventDispatcher 
 {

@@ -1,4 +1,5 @@
 #include "EventDispatcher.hpp"
+#include "Event.hpp"
 
 void EventDispatcher::AddListener(const std::string& EventName, EventCallback Callback)
 {

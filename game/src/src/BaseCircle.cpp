@@ -3,6 +3,7 @@
 
 void BaseCircle::Tick(float Deltatime)
 {
+
 	DrawCircleShape();
 	if (IsControllable == true)
 	{
@@ -16,6 +17,7 @@ void BaseCircle::Tick(float Deltatime)
 	{
 		DrawDebugVelocity();
 	}
+	BoundingBox = { Position.x - Radius, Position.y - Radius, Radius * 2, Radius * 2 };
 }
 
 void BaseCircle::SetIsControllable(bool Status)
@@ -236,19 +238,56 @@ void BaseCircle::CalculateCollision(std::shared_ptr<Tickable> CollisionObject)
 		// Calculate the velocity component along the direction of collision
 		float VelAlongCollision = Vector2DotProduct(RelativeVelocity, DirNormalized);
 
+
 		// Calculate new Position Outside of Rectangle
 
-		Vector2 PushAway = Vector2Scale(DirNormalized, Distance/10);
-		this->Position = Vector2Add(this->Position, PushAway);
-		Vector2 Helper = Vector2Add(DirNormalized, CollObject->GetCenter());
-		DrawLine(this->GetCenter().x, this->GetCenter().y, Helper.x, Helper.y, GREEN);
+		Rectangle Intersection = GetCollisionRec(CollObject->GetBBox(), BoundingBox);
 
+		Vector2 CollisionNormal;
+
+		if (Intersection.width < Intersection.height)
+		{
+			if (CollObject->GetPosition().x > this->GetPosition().x) 
+			{
+				CollisionNormal = { -1, 0 }; // Left side
+				std::cout << "Left" << std::endl;
+			}
+			else
+			{
+				CollisionNormal = { 1, 0 }; // Right side
+				std::cout << "Right" << std::endl;
+			}
+		}
+		else
+		{
+			if (CollObject->GetPosition().y > this->GetPosition().y)
+			{
+				std::cout << "Top" << std::endl;
+				CollisionNormal = { 0, -1 }; // Top side
+			}
+			else
+			{
+				std::cout << "Bottom" << std::endl;
+				CollisionNormal = { 0, 1 }; // Bottom side
+			}
+		}
+		Vector2 IntersectionDim;
+		// Move the rectangle to the collision point
+
+		IntersectionDim =
+		{
+			(Intersection.width),
+			(Intersection.height)
+		};
+
+		Vector2 OffsettedPos = (Vector2Add(this->GetPosition(), Vector2Multiply(CollisionNormal, IntersectionDim)));
+		this->SetPosition(OffsettedPos);
 
 		// Apply collision response if circles are moving towards each other
 		if (VelAlongCollision < 0)
 		{
-			Vector2 Impulse = Vector2Scale(DirNormalized, VelAlongCollision);
 
+			Vector2 Impulse = Vector2Scale(DirNormalized, VelAlongCollision);
 			this->Velocity = Vector2Subtract(this->Velocity, Impulse);
 
 		}

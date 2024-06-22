@@ -1,8 +1,5 @@
 #pragma once
-#include "TickableFactory.h"
-#include "raylib.h"
-#ifndef TICKABLE_H
-#define TICKABLE_H
+#include "core/Core.h"
 /*
 * Class which all Objects who needs a Tick functionality can derive from
 */
@@ -33,5 +30,3 @@ protected:
     Color FColor = BLACK;
     bool IsControllable = false;
 };
-
-#endif // TICKABLE_H

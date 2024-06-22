@@ -1,8 +1,5 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include <memory>
-#include <algorithm>
+#include "core/Core.h"
 
 class Tickable;
 

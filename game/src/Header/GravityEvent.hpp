@@ -1,8 +1,6 @@
 #pragma once
-#include <memory>
-#include "Tickable.h"
+#include "core/Core.h"
 #include "Event.hpp"
-#include "EventDispatcher.hpp"
 
 class GravityEvent : public Event
 {

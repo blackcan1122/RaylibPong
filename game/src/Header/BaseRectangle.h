@@ -1,11 +1,9 @@
 #pragma once
-#include "Tickable.h"
-#include "TickableFactory.h"
-#include "raylib.h"
-#include "raymath.h"
-#include "Helper.hpp"
+#include "core/Core.h"
 #include "CollisionEvent.hpp"
 #include "GravityEvent.hpp"
+#include "TickableFactory.h"
+
 class BaseRectangle : public Tickable
 {
 public:

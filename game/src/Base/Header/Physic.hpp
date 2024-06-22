@@ -1,13 +1,8 @@
 #pragma once
-#include "CollisionEvent.hpp"
-#include "GravityEvent.hpp"
-#include "Event.hpp"
-#include "raylib.h"
+#include "core/Core.h"
 #include "Tickable.h"
-#include "raylib.h"
-#include "raymath.h"
-#include "DispatcherEvent.hpp"
-#include "EventDispatcher.hpp"
+#include "TickableFactory.h"
+
 
 class PhysicEngine : Tickable
 {

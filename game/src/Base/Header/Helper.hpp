@@ -1,8 +1,5 @@
 #pragma once
-#include "raylib.h"
-#include "raymath.h"
-#include <algorithm>
-#include <cmath>
+#include "../core/Core.h"
 
 static class Helper
 {
