@@ -267,6 +267,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SandboxMode.cpp" />
     <ClCompile Include="src\private\BaseCircle.cpp" />
     <ClCompile Include="src\private\CollisionEvent.cpp" />
     <ClCompile Include="src\private\DispatcherEvent.cpp" />
@@ -281,6 +282,7 @@
     <ClCompile Include="src\private\StateMachine.cpp" />
     <ClCompile Include="src\private\Tickable.cpp" />
     <ClCompile Include="src\private\TickableFactory.cpp" />
+    <ClCompile Include="StartingMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\raylib-master\raylib.vcxproj">
@@ -288,22 +290,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SandboxMode.h" />
     <ClInclude Include="src\public\BaseCircle.h" />
     <ClInclude Include="src\public\CollisionEvent.hpp" />
     <ClInclude Include="core\Core.h" />
     <ClInclude Include="src\public\DispatcherEvent.hpp" />
-    <ClInclude Include="src\public\Header\Event.hpp" />
-    <ClInclude Include="src\public\Header\EventDispatcher.hpp" />
-    <ClInclude Include="src\public\Header\GameInstance.h" />
-    <ClInclude Include="src\public\Header\GameMode.h" />
+    <ClInclude Include="src\public\Event.hpp" />
+    <ClInclude Include="src\public\EventDispatcher.hpp" />
+    <ClInclude Include="src\public\GameInstance.h" />
+    <ClInclude Include="src\public\GameMode.h" />
     <ClInclude Include="src\public\GravityEvent.hpp" />
-    <ClInclude Include="src\public\Header\Helper.hpp" />
+    <ClInclude Include="src\public\Helper.hpp" />
     <ClInclude Include="src\public\BaseRectangle.h" />
-    <ClInclude Include="src\public\Header\Physic.hpp" />
-    <ClInclude Include="src\public\Header\StateMachine.h" />
-    <ClInclude Include="src\public\Header\Tickable.h" />
-    <ClInclude Include="src\public\Header\TickableFactory.h" />
-    <ClInclude Include="src\public\Header\TickAll.h" />
+    <ClInclude Include="src\public\Physic.hpp" />
+    <ClInclude Include="src\public\StateMachine.h" />
+    <ClInclude Include="src\public\Tickable.h" />
+    <ClInclude Include="src\public\TickableFactory.h" />
+    <ClInclude Include="src\public\TickAll.h" />
+    <ClInclude Include="StartingMenu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,8 @@
 #include "GameInstance.h"
 #include "StateMachine.h"
 #include "GameMode.h"
+#include "StartingMenu.h"
+#include "SandboxMode.h"
 
 // Definition of the static member
 GameInstance* GameInstance::Instance = nullptr;
@@ -48,9 +50,9 @@ void GameInstance::CreateWindow()
 void GameInstance::GameLoop()
 {
 	StateMachine ActiveStateMachine;
-	ActiveStateMachine.RegisterState("Menu", []() {return new GameMode(10); });
-	ActiveStateMachine.RegisterState("Sandbox", []() {return new GameMode(20); });
-	ActiveStateMachine.RegisterState("Pong", []() {return new GameMode(30); });
+	ActiveStateMachine.RegisterState("Menu", []() {return new StartMenu(10); });
+	ActiveStateMachine.RegisterState("Sandbox", []() {return new SandboxMode(); });
+	ActiveStateMachine.RegisterState("Pong", []() {return new GameMode(); });
 
 	ActiveStateMachine.ChangeState("Menu");
 

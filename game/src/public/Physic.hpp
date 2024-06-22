@@ -44,6 +44,10 @@ public:
 	{
 		TickableFactory::Register(this);
 	}
+	~PhysicEngine()
+	{
+		TickableFactory::Unregister(this);
+	}
 
 /*
 * ****************************
@@ -63,6 +67,7 @@ public:
 * ****************************
 */
 	void CollectAllObjectsForGravity();
+	void CleanUp();
 	void ApplyGravity(float Deltatime);
 
 

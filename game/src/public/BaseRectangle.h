@@ -14,6 +14,7 @@ public:
 	~BaseRectangle() override
 	{
 		TickableFactory::Unregister(this);
+		std::cout << "BaseRectangle Was Deleted" << std::endl;
 	}
 
 public:

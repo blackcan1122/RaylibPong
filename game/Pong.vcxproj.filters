@@ -22,39 +22,117 @@
     <Filter Include="Source Files\public\Basics">
       <UniqueIdentifier>{fd9f98d3-a377-4ba9-9f72-f29274420f28}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\private\GameModes">
+      <UniqueIdentifier>{629e2f51-74ae-443c-a25b-46dac1ed6fb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\public\GameModes">
+      <UniqueIdentifier>{f104d098-3acc-4234-8fdc-d862dfc544bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\src\BaseCircle.cpp" />
-    <ClCompile Include="src\src\CollisionEvent.cpp" />
-    <ClCompile Include="src\src\DispatcherEvent.cpp" />
-    <ClCompile Include="src\Base\src\EventDispatcher.cpp" />
-    <ClCompile Include="src\Base\src\GameInstance.cpp" />
-    <ClCompile Include="src\Base\src\GameMode.cpp" />
-    <ClCompile Include="src\src\GravityEvent.cpp" />
-    <ClCompile Include="src\Base\src\Helper.cpp" />
-    <ClCompile Include="src\src\BaseRectangle.cpp" />
-    <ClCompile Include="src\Base\src\Physic.cpp" />
-    <ClCompile Include="src\src\main.cpp" />
-    <ClCompile Include="src\Base\src\StateMachine.cpp" />
-    <ClCompile Include="src\Base\src\Tickable.cpp" />
-    <ClCompile Include="src\Base\src\TickableFactory.cpp" />
+    <ClCompile Include="src\private\BaseCircle.cpp">
+      <Filter>Source Files\private</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\BaseRectangle.cpp">
+      <Filter>Source Files\private</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\Helper.cpp">
+      <Filter>Source Files\private</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\main.cpp">
+      <Filter>Source Files\private</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\EventDispatcher.cpp">
+      <Filter>Source Files\private\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\DispatcherEvent.cpp">
+      <Filter>Source Files\private\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\CollisionEvent.cpp">
+      <Filter>Source Files\private\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\GravityEvent.cpp">
+      <Filter>Source Files\private\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\TickableFactory.cpp">
+      <Filter>Source Files\private\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\Tickable.cpp">
+      <Filter>Source Files\private\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\Physic.cpp">
+      <Filter>Source Files\private\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\GameMode.cpp">
+      <Filter>Source Files\private\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\GameInstance.cpp">
+      <Filter>Source Files\private\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="StartingMenu.cpp">
+      <Filter>Source Files\private\GameModes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\StateMachine.cpp">
+      <Filter>Source Files\private\Basics</Filter>
+    </ClCompile>
+    <ClCompile Include="SandboxMode.cpp">
+      <Filter>Source Files\private\GameModes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Header\BaseCircle.h" />
-    <ClInclude Include="src\Header\CollisionEvent.hpp" />
-    <ClInclude Include="core\Core.h" />
-    <ClInclude Include="src\Header\DispatcherEvent.hpp" />
-    <ClInclude Include="src\Base\Header\Event.hpp" />
-    <ClInclude Include="src\Base\Header\EventDispatcher.hpp" />
-    <ClInclude Include="src\Base\Header\GameInstance.h" />
-    <ClInclude Include="src\Base\Header\GameMode.h" />
-    <ClInclude Include="src\Header\GravityEvent.hpp" />
-    <ClInclude Include="src\Base\Header\Helper.hpp" />
-    <ClInclude Include="src\Header\BaseRectangle.h" />
-    <ClInclude Include="src\Base\Header\Physic.hpp" />
-    <ClInclude Include="src\Base\Header\StateMachine.h" />
-    <ClInclude Include="src\Base\Header\Tickable.h" />
-    <ClInclude Include="src\Base\Header\TickableFactory.h" />
-    <ClInclude Include="src\Base\Header\TickAll.h" />
+    <ClInclude Include="src\public\BaseCircle.h">
+      <Filter>Source Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\BaseRectangle.h">
+      <Filter>Source Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\DispatcherEvent.hpp">
+      <Filter>Source Files\public\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\GravityEvent.hpp">
+      <Filter>Source Files\public\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\CollisionEvent.hpp">
+      <Filter>Source Files\public\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\EventDispatcher.hpp">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\Event.hpp">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Core.h">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\TickableFactory.h">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\TickAll.h">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\Tickable.h">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\StateMachine.h">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\Physic.hpp">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\GameMode.h">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\GameInstance.h">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\Helper.hpp">
+      <Filter>Source Files\public\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="StartingMenu.h">
+      <Filter>Source Files\public\GameModes</Filter>
+    </ClInclude>
+    <ClInclude Include="SandboxMode.h">
+      <Filter>Source Files\public\GameModes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

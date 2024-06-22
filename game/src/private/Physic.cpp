@@ -50,6 +50,11 @@ void PhysicEngine::CollectAllObjectsForGravity()
 	}
 }
 
+void PhysicEngine::CleanUp()
+{
+	GravityAffected.clear();
+}
+
 void PhysicEngine::ApplyGravity(float Deltatime)
 {
 	for (auto& GravityObjects : GravityAffected)

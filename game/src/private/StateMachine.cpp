@@ -15,7 +15,7 @@ void StateMachine::ChangeState(const std::string& StateName)
 		CurrentGameMode = nullptr;
 		if (CurrentGameMode == nullptr)
 		{
-			std::cout << "its Deleted" << std::endl;
+			std::cout << "GameMode is now :" << CurrentGameMode << std::endl;
 		}
 	}
 

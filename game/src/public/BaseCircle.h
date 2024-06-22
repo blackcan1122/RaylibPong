@@ -15,6 +15,7 @@ public:
 	~BaseCircle() override
 	{
 		TickableFactory::Unregister(this);
+		std::cout << "BaseCircle Was Deleted" << std::endl;
 	}
 
 public:

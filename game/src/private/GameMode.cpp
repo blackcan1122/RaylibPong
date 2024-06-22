@@ -1,25 +1,21 @@
 #include "GameMode.h"
 
-GameMode::GameMode(float Tick)
+GameMode::GameMode()
 {
-	m_DeltaTime = Tick;
-	std::cout << "GameMode Was Created" << std::endl;
 
 }
 
-GameMode::~GameMode()
-{
-	std::cout << "GameMode Was Deleted" << std::endl;
-}
 
 void GameMode::Update()
 {
-	if (m_DeltaTime == 10)
-	{
-		ClearBackground(RED);
-	}
-	else if (m_DeltaTime == 20)
-	{
-		ClearBackground(GREEN);
-	}
+	ClearBackground(RED);
+}
+
+void GameMode::SetName(std::string Name)
+{
+}
+
+std::string GameMode::GetName()
+{
+	return std::string();
 }
