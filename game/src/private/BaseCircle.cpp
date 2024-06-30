@@ -62,26 +62,26 @@ bool BaseCircle::GetGravityAffected()
 
 void BaseCircle::CalculateGravity(float Gravity, float Deltatime)
 {
-	if ((this->GetPosition().y + Radius) > GetScreenHeight() && IsBoundByScreen)
+	if ((this->GetPosition().y + Radius) > static_cast<int>(GetScreenHeight()) && IsBoundByScreen)
 	{
 		Vector2 Pos = this->GetPosition();
-		Pos.y -= (Pos.y - GetScreenHeight() + Radius);
+		Pos.y -= (Pos.y - static_cast<int>(GetScreenHeight()) + Radius);
 		SetPosition(Pos);
 		Vector2 Helper = { 0,-1 };
 		Vector2 ReflectVector;
 		ReflectVector = (Vector2Reflect(Velocity, Helper));
-		ReflectVector = Vector2Scale(ReflectVector, 0.8);
+		ReflectVector = Vector2Scale(ReflectVector, 1);
 		Velocity = ReflectVector;
 	}
-	if ((this->GetPosition().x + Radius) > GetScreenWidth() && IsBoundByScreen)
+	if ((this->GetPosition().x + Radius) > static_cast<int>(GetScreenWidth()) && IsBoundByScreen)
 	{
 		Vector2 Pos = this->GetPosition();
-		Pos.x -= (Pos.x - GetScreenWidth() + Radius);
+		Pos.x -= (Pos.x - static_cast<int>(GetScreenWidth()) + Radius);
 		SetPosition(Pos);
 		Vector2 Helper = { -1,0 };
 		Vector2 ReflectVector;
 		ReflectVector = (Vector2Reflect(Velocity, Helper));
-		ReflectVector = Vector2Scale(ReflectVector, 0.8);
+		ReflectVector = Vector2Scale(ReflectVector, 1);
 		Velocity = ReflectVector;
 	}
 	if ((this->GetPosition().x - Radius) < 0 && IsBoundByScreen)
@@ -92,7 +92,7 @@ void BaseCircle::CalculateGravity(float Gravity, float Deltatime)
 		Vector2 Helper = { 1,0 };
 		Vector2 ReflectVector;
 		ReflectVector = (Vector2Reflect(Velocity, Helper));
-		ReflectVector = Vector2Scale(ReflectVector, 0.8);
+		ReflectVector = Vector2Scale(ReflectVector, 1);
 		Velocity = ReflectVector;
 	}
 
@@ -108,7 +108,7 @@ void BaseCircle::CalculateNewPos(float Deltatime)
 {
 	Vector2 NewPos = GetPosition();
 	if (std::abs(Velocity.x) < 0.5) { Velocity.x = 0; };
-	if (std::abs(Velocity.y) < 0.5) { Velocity.x = 0; };
+	if (std::abs(Velocity.y) < 0.5) { Velocity.y = 0; };
 
 	NewPos.x += Velocity.x * Deltatime;
 	NewPos.y += Velocity.y * Deltatime;
@@ -119,7 +119,7 @@ void BaseCircle::CalculateNewPos(float Deltatime)
 		{
 			Velocity = Vector2Reflect(Velocity ,Vector2{0,1});
 		}
-		else if (NewPos.y > GetScreenHeight())
+		else if (NewPos.y > static_cast<float>(GetScreenHeight()))
 		{
 			Velocity = Vector2Reflect(Velocity ,Vector2{0,-1});
 		}
@@ -127,7 +127,7 @@ void BaseCircle::CalculateNewPos(float Deltatime)
 		{
 			Velocity = Vector2Reflect(Velocity ,Vector2{1,0});
 		}
-		else if (NewPos.x > GetScreenWidth())
+		else if (NewPos.x > static_cast<float>(GetScreenWidth()))
 		{
 			Velocity = Vector2Reflect(Velocity ,Vector2{-1,0});
 		}	
@@ -302,10 +302,15 @@ void BaseCircle::CalculateCollision(std::shared_ptr<Tickable> CollisionObject)
 		Vector2 OffsettedPos = (Vector2Add(this->GetPosition(), Vector2Multiply(CollisionNormal, IntersectionDim)));
 		this->SetPosition(OffsettedPos);
 
+		
 		// Apply collision response if circles are moving towards each other
-		Vector2 Impulse = Vector2Reflect(DirNormalized,Vector2Normalize(RelativeVelocity));
+		std::cout << RelativeVelocity.x << RelativeVelocity.y << std::endl;
+		Vector2 Impulse = Vector2Reflect(Vector2Normalize(RelativeVelocity),CollisionNormal);
+		//Vector2 Impulse = Vector2Reflect(CollisionNormal,);
 		Impulse = Vector2Scale(Impulse,Vector2Length(Velocity));
 		this->Velocity = Impulse;
+		
+		
 		
 	}
 

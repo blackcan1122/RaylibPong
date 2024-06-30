@@ -25,7 +25,7 @@ PongGameMod::PongGameMod()
     PlayerOne->SetPosition(Vector2{50,0});
     PlayerOne->SetIsBoundByScreen(true);
 
-    // Player Two
+    // Player Two 
     PlayerTwo->RestrictAxis('Y');
     PlayerTwo->SetUseGravity(false);
     PlayerTwo->SetIsControllable(false);
@@ -44,7 +44,7 @@ PongGameMod::PongGameMod()
     BallPos.x = GetScreenWidth()/2;
     BallPos.y = GetScreenHeight()/2;
     Ball->SetPosition(BallPos);
-    Ball->SetStartVelocity(Vector2{-400,1});
+    Ball->SetStartVelocity(Vector2{-400,0});
 
      TempContainer = {PlayerOne,PlayerTwo};
     
