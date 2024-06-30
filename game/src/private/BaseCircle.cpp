@@ -97,7 +97,7 @@ void BaseCircle::CalculateGravity(float Gravity, float Deltatime)
 	}
 
 	Velocity.y += Gravity;
-	Velocity.y *= Dampening;
+	Velocity.y *= (m_Drag * Dampening);
 
 
 	CalculateNewPos(Deltatime);
@@ -113,6 +113,25 @@ void BaseCircle::CalculateNewPos(float Deltatime)
 	NewPos.x += Velocity.x * Deltatime;
 	NewPos.y += Velocity.y * Deltatime;
 
+	if (IsBoundByScreen == true)
+	{
+		if (NewPos.y < 0)
+		{
+			Velocity = Vector2Reflect(Velocity ,Vector2{0,1});
+		}
+		else if (NewPos.y > GetScreenHeight())
+		{
+			Velocity = Vector2Reflect(Velocity ,Vector2{0,-1});
+		}
+		if (NewPos.x < 0)
+		{
+			Velocity = Vector2Reflect(Velocity ,Vector2{1,0});
+		}
+		else if (NewPos.x > GetScreenWidth())
+		{
+			Velocity = Vector2Reflect(Velocity ,Vector2{-1,0});
+		}	
+	}
 	SetPosition(NewPos);
 }
 
@@ -220,7 +239,7 @@ void BaseCircle::CalculateCollision(std::shared_ptr<Tickable> CollisionObject)
 {
 	if (!CollisionObject)
 	{
-		std::cout << "Collision Object is Nullptr" << std::endl;
+		std::cerr << "Collision Object is Nullptr\n";
 		return;
 	}
 
@@ -228,6 +247,7 @@ void BaseCircle::CalculateCollision(std::shared_ptr<Tickable> CollisionObject)
 	if (std::dynamic_pointer_cast<BaseRectangle>(CollisionObject))
 	{
 		std::shared_ptr<BaseRectangle> CollObject = std::dynamic_pointer_cast<BaseRectangle>(CollisionObject);
+		
 		//Getting Vector To Collision Object
 		Vector2 DirectionToOtherObject = Vector2Subtract(this->GetCenter(), CollObject->GetCenter());
 		float Distance = Vector2Length(DirectionToOtherObject);
@@ -240,7 +260,6 @@ void BaseCircle::CalculateCollision(std::shared_ptr<Tickable> CollisionObject)
 
 
 		// Calculate new Position Outside of Rectangle
-
 		Rectangle Intersection = GetCollisionRec(CollObject->GetBBox(), BoundingBox);
 
 		Vector2 CollisionNormal;
@@ -272,8 +291,8 @@ void BaseCircle::CalculateCollision(std::shared_ptr<Tickable> CollisionObject)
 			}
 		}
 		Vector2 IntersectionDim;
+		
 		// Move the rectangle to the collision point
-
 		IntersectionDim =
 		{
 			(Intersection.width),
@@ -284,14 +303,13 @@ void BaseCircle::CalculateCollision(std::shared_ptr<Tickable> CollisionObject)
 		this->SetPosition(OffsettedPos);
 
 		// Apply collision response if circles are moving towards each other
-		if (VelAlongCollision < 0)
-		{
-
-			Vector2 Impulse = Vector2Scale(DirNormalized, VelAlongCollision);
-			this->Velocity = Vector2Subtract(this->Velocity, Impulse);
-
-		}
+		Vector2 Impulse = Vector2Reflect(DirNormalized,Vector2Normalize(RelativeVelocity));
+		Impulse = Vector2Scale(Impulse,Vector2Length(Velocity));
+		this->Velocity = Impulse;
+		
 	}
+
+	
 	// Case when our Collision Object is derived from BaseCircle
 	if (std::dynamic_pointer_cast<BaseCircle>(CollisionObject))
 	{
@@ -324,6 +342,21 @@ void BaseCircle::CalculateCollision(std::shared_ptr<Tickable> CollisionObject)
 		}
 	}
 
+}
+
+void BaseCircle::UseDrag(bool Drag)
+{
+	m_Drag = Drag;
+}
+
+void BaseCircle::SetStartVelocity(Vector2 StartVelocity)
+{
+	Velocity = StartVelocity;
+}
+
+Rectangle BaseCircle::GetBBox()
+{
+	return BoundingBox;
 }
 
 Vector2 BaseCircle::GetCenter()

@@ -1,6 +1,7 @@
 #include "GameInstance.h"
 #include "StateMachine.h"
 #include "GameMode.h"
+#include "PongGameMod.h"
 #include "StartingMenu.h"
 #include "SandboxMode.h"
 
@@ -52,7 +53,7 @@ void GameInstance::GameLoop()
 	StateMachine ActiveStateMachine;
 	ActiveStateMachine.RegisterState("Menu", []() {return new StartMenu(10); });
 	ActiveStateMachine.RegisterState("Sandbox", []() {return new SandboxMode(); });
-	ActiveStateMachine.RegisterState("Pong", []() {return new GameMode(); });
+	ActiveStateMachine.RegisterState("Pong", []() {return new PongGameMod(); });
 
 	ActiveStateMachine.ChangeState("Menu");
 
@@ -72,7 +73,6 @@ void GameInstance::GameLoop()
 			ActiveStateMachine.ChangeState("Pong");
 		}
 		ActiveStateMachine.UpdateGameMode();
-		DrawFPS(100, 100);
 		EndDrawing();
 	}
 }

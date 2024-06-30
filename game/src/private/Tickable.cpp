@@ -21,7 +21,7 @@ void Tickable::SetUseGravity(bool Status)
 
 void Tickable::SetIsBoundByScreen(bool Status)
 {
-	IsBoundByScreen = false;
+	IsBoundByScreen = Status;
 }
 
 

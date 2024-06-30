@@ -56,9 +56,9 @@ public:
 	void SetIsBoundByScreen(bool Status) override;
 	void SetUseGravity(bool Status) override;
 	void SetPosition(Vector2 NewPos) override;
-	virtual Vector2 CalculatePosition(Vector2& CurrentPos, Vector2& Velocity, float& Dampening, Vector2& Accel,const float Deltatime) override;
+	Vector2 CalculatePosition(Vector2& CurrentPos, Vector2& Velocity, float& Dampening, Vector2& Accel,const float Deltatime) override;
 	bool GetGravityAffected() override;
-	virtual void CalculateGravity(float Gravity, float Deltatime) override;
+	void CalculateGravity(float Gravity, float Deltatime) override;
 
 
 	/*
@@ -72,6 +72,9 @@ public:
 	void DrawCircleShape();
 	Vector2 CalculateForwardVector();
 	void CalculateCollision(std::shared_ptr<Tickable> CollisionObject);
+	void UseDrag(bool Drag);
+	void SetStartVelocity(Vector2 StartVelocity);
+	Rectangle GetBBox();
 
 	// Setter Functions specific for Rectangles
 	void SetRadius(float NewRadius);
@@ -101,6 +104,8 @@ private:
 	float Accel = 0;
 	float Dampening = 0.97;
 	Rectangle BoundingBox;
+	//bool IsBoundByScreen;
+	bool m_Drag = true;
 
 
 };

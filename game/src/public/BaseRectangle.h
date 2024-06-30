@@ -56,8 +56,9 @@ public:
 	void SetIsControllable(bool Status) override;
 	bool GetGravityAffected() override;
 	void SetPosition(Vector2 NewPos) override;
-	virtual void SetUseGravity(bool Status) override;
-	virtual void CalculateGravity(float Gravity, float Deltatime) override;
+	void SetUseGravity(bool Status) override;
+	void CalculateGravity(float Gravity, float Deltatime) override;
+	void SetIsBoundByScreen(bool Status) override;
 
 	/*
 	* *******************************
@@ -68,6 +69,7 @@ public:
 	void UseControllTransform(float Deltatime);
 	void DrawSquare();
 	Vector2 CalculateForwardVector();
+	void RestrictAxis(char Axis);
 
 	// Setter Functions specific for Rectangles
 	void SetDimensions(Vector2 NewDimensions);
@@ -80,6 +82,7 @@ public:
 	Vector2 GetVelocity();
 	Rectangle GetBBox();
 	float GetMagnitudeVelocity();
+	bool IsBoundByScreen;
 
 	// Collision Function Event
 	void OnCollision(std::shared_ptr<CollisionEvent> event);
@@ -97,6 +100,7 @@ private:
 	float Accel = 0;
 	float Dampening = 0.97;
 	Rectangle BBox;
+	char AxisRestriction;
 
 };
 

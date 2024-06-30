@@ -18,6 +18,6 @@ public:
 
 	void ChangeState(const std::string& StateName);
 
-	void UpdateGameMode();
+	void UpdateGameMode() const;
 
 };

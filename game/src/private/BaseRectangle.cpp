@@ -51,24 +51,30 @@ void BaseRectangle::CalculateGravity(float Gravity, float Deltatime)
 	}
 }
 
+void BaseRectangle::SetIsBoundByScreen(bool Status)
+{
+	IsBoundByScreen = Status;
+}
+
 
 void BaseRectangle::UseControllTransform(float Deltatime)
 {
 	// Accelarting
 	Accel = 30.f; // Magic Accel Number
-	if (IsKeyDown(KEY_UP))
+	
+	if (IsKeyDown(KEY_UP) && AxisRestriction != 'X')
 	{
 		Velocity.y -= Accel;
 	}
-	if (IsKeyDown(KEY_DOWN))
+	if (IsKeyDown(KEY_DOWN) && AxisRestriction != 'X')
 	{
 		Velocity.y += Accel;
 	}
-	if (IsKeyDown(KEY_RIGHT))
+	if (IsKeyDown(KEY_RIGHT) && AxisRestriction != 'Y')
 	{
 		Velocity.x += Accel;
 	}
-	if (IsKeyDown(KEY_LEFT))
+	if (IsKeyDown(KEY_LEFT) && AxisRestriction != 'Y')
 	{
 		Velocity.x -= Accel;
 	}
@@ -92,7 +98,25 @@ void BaseRectangle::UseControllTransform(float Deltatime)
 		Velocity.y = 0;
 	}
 
-	DrawText(TextFormat("Velocity X: %f, Velocity Y:%f", Velocity.x, Velocity.y), 50, 50, 12, BLACK);
+	if (IsBoundByScreen == true)
+	{
+		if (Position.x < 0 || Position.x > GetScreenWidth())
+		{
+			Velocity.x = 0;
+		}
+		else if (Position.y < 0 || Position.y > (GetScreenHeight()-Dimensions.y))
+		{
+			if (Position.y < 0)
+			{
+				Position.y = 0;
+			}
+			else
+			{
+				Position.y = (GetScreenHeight()-Dimensions.y);
+			}
+			Velocity.x = 0;
+		}
+	}
 }
 
 void BaseRectangle::DrawSquare()
@@ -211,6 +235,18 @@ Vector2 BaseRectangle::CalculateForwardVector()
 	ForwardVector = Vector2Add(ForwardVector, OffsettedPos);
 
 	return ForwardVector;
+}
+
+void BaseRectangle::RestrictAxis(char Axis)
+{
+	if (Axis != 'X' && Axis != 'Y')
+	{
+		std::cerr << "No correct Axis were Defined\n";
+		return;
+	}
+	AxisRestriction = Axis;
+	return;
+	
 }
 
 Vector2 BaseRectangle::GetCenter()

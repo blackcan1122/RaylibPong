@@ -20,8 +20,9 @@ protected:
 
 	int m_ScreenWidth;
 	int m_ScreenHeight;
-	bool m_Fullscreen;
 	int m_TargetFps;
+	bool m_Fullscreen;
+
 
 	/*
 	*****************************
